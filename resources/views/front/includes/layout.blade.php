@@ -94,7 +94,7 @@
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
-                    <div class="fw-bold text-primary mb-4">{{config('settings.name')}}</div>
+                    <div class="fw-bold h1 text-primary mb-4">{{config('settings.name')}}</div>
 
                     <p>
                         {{ config('settings.footer_description') }}
