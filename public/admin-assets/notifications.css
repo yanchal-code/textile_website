@@ -1,0 +1,111 @@
+.notification {
+    min-width: 250px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #333;
+    position: relative;
+    animation: slide-in 0.25s forwards;
+    overflow: hidden;
+}
+
+.notification.success {
+    background-color: #28a745;
+}
+
+.notification.info {
+    background-color: #17a2b8;
+}
+
+.notification.warning {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.notification.error {
+    background-color: #dc3545;
+}
+
+.notification .notificationCloseBtn {
+    position: absolute;
+    top: -8px;
+    right: -2px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.notification .progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    animation: progress 5s linear forwards;
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-out {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+@keyframes progress {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0;
+    }
+}
+
+
+
+
+
+.loader {
+    display: inline-block;
+    border: 4px solid #f3f3f3;
+    /* Light grey */
+    border-top: 4px solid var(--primary);
+    color: black;
+    /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

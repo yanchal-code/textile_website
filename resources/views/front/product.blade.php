@@ -1,0 +1,750 @@
+@extends('front.includes.layout')
+
+@section('metaTags')
+    <title>{{ $product->meta_title ?? $product->name }}</title>
+    <meta name="title" content="{{ $product->meta_title ?? $product->name }}">
+    <meta name="description" content="{{ $product->meta_description }}">
+    <meta name="keywords" content="{{ $product->meta_keywords }}">
+@endsection
+
+@section('scripts')
+    <script>
+        // Primary slider.
+        var primarySlider = new Splide('#primary_slider', {
+            type: 'fade',
+            heightRatio: 0.5,
+            pagination: false,
+            arrows: false,
+            cover: true,
+        });
+
+        // Thumbnails slider.
+        var thumbnailSlider = new Splide('#thumbnail_slider', {
+            rewind: true,
+            fixedWidth: 90,
+            fixedHeight: 90,
+            isNavigation: true,
+            gap: 10,
+            focus: 'center',
+            pagination: false,
+            cover: true,
+            breakpoints: {
+                '600': {
+                    fixedWidth: 66,
+                    fixedHeight: 40,
+                }
+            }
+        }).mount();
+
+        // sync the thumbnails slider as a target of primary slider.
+        primarySlider.sync(thumbnailSlider).mount();
+    </script>
+@endsection
+
+@section('head')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $product->title }}">
+    <meta name="twitter:description" content="{{ $product->description }}">
+    <meta name="twitter:image" content="{{ asset($product->defaultImage->image ?? $product->images->first()->image) }}">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+
+    <meta property="og:title" content="{{ $product->title }}">
+    <meta property="og:description" content="{{ $product->description }}">
+    <meta property="og:image" content="{{ asset($product->defaultImage->image ?? $product->images->first()->image) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="product">
+    <meta property="og:site_name" content="shopbytoday.com">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@1.2.0/dist/css/splide.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@1.2.0/dist/js/splide.min.js"></script>
+    <style>
+        .thumbnail_slider {
+            max-width: 700px;
+            margin: 30px auto;
+        }
+
+        .splide__slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            transition: .2s;
+            border-width: 2px !important;
+            margin: 10px 4px;
+        }
+
+        .splide--nav>.splide__track>.splide__list>.splide__slide.is-active {
+            box-shadow: 2px 3px 8px #000000a3;
+        }
+
+        .splide__slide img {
+            width: auto;
+            height: auto;
+            margin: auto;
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+
+        .options {
+            width: 80%;
+        }
+
+        /* Media query for larger screens (desktops/tablets): 30% width */
+        @media (min-width: 768px) {
+            .options {
+                width: 30%;
+            }
+        }
+    </style>
+
+    <style>
+        #primary_slider .splide__slide {
+            height: 430px !important;
+            width: auto;
+        }
+
+        #primary_slider img {
+            height: 100%;
+            /* Make the image cover the slide height */
+            width: auto;
+            /* Ensure the image maintains its aspect ratio */
+            object-fit: contain;
+            /* This will ensure the image fits inside the slide without being cropped */
+        }
+    </style>
+
+    <style>
+        .form-control {
+            border-radius: 0.5rem;
+            border: 1px solid #dee2e6;
+        }
+
+        /* Star rating input styling */
+        .rating-stars {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+        .rating-stars input[type="radio"]:checked~label,
+        .rating-stars label:hover,
+        .rating-stars label:hover~label {
+            color: #ffc107;
+        }
+
+        .rating-stars label {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #ddd;
+            margin: 0 2px;
+            transition: color 0.3s;
+        }
+
+
+
+        /* Responsive text inside tabs */
+        .tab-pane p,
+        .tab-pane ul,
+        .tab-pane ol {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Rounded tab content background */
+        .tab-pane .bg-light {
+            border-radius: 0.375rem;
+        }
+    </style>
+@endsection
+
+@section('content')
+    <!-- Page Title -->
+    <div class="page-title light-background">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <h1 class="mb-2 mb-lg-0">Product Detail</h1>
+            <nav class="breadcrumbs">
+                <ol>
+                    <li><a href="{{ route('front.shop') }}">Shop</a></li>
+                    <li class="current">{{ $product->slug }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- End Page Title -->
+
+    <!-- default -->
+    <section id="product-details" class="product-details section">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row justify-evenly" id="product_div">
+                <!-- Product Images -->
+                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right" data-aos-delay="200">
+                    <div class="product-images">
+                        <div class="main-image-container mb-3">
+                            <div class="image-zoom-container">
+                                @php
+                                    $images = getImagesBySku($product->sku);
+                                    $videos = $product->videos;
+                                    $totalImages = count($images);
+                                    $mainImage = $images[0] ?? 'admin-assets/img/default-150x150.png';
+                                @endphp
+                                <img src="{{ $mainImage }}" alt="{{ $product->alt_image_text }}"
+                                    class="img-fluid main-image drift-zoom" id="main-product-image"
+                                    data-zoom="{{ $mainImage }}">
+                            </div>
+                        </div>
+
+                        <div class="product-thumbnails">
+                            <div class="swiper product-thumbnails-slider init-swiper">
+                                <script type="application/json" class="swiper-config">
+                                        {
+                                        "loop": false,
+                                        "speed": 400,
+                                        "slidesPerView": 4,
+                                        "spaceBetween": 10,
+                                        "navigation": {
+                                            "nextEl": ".swiper-button-next",
+                                            "prevEl": ".swiper-button-prev"
+                                        },
+                                        "breakpoints": {
+                                            "320": {"slidesPerView": 3},
+                                            "576": {"slidesPerView": 4}
+                                        }
+                                        }
+                                    </script>
+                                <div class="swiper-wrapper">
+                                    @foreach ($images as $image)
+                                        <div class="swiper-slide thumbnail-item @if ($loop->first) active @endif"
+                                            data-image="{{ $image }}">
+                                            <img src="{{ $image }}" alt="{{ $product->alt_image_text }}"
+                                                class="img-fluid">
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" id="secondDiv">
+                    <div class="card border-0 product-info sticky-top rounded-4 p-4" style="z-index: 100;">
+
+
+                        <div class="product-meta mb-2">
+                            <span class="product-category">{{ $product->leafCategory->name ?? 'Category' }}</span>
+                        </div>
+
+                        <h1 class="product-title">{{ $product->name }}</h1>
+
+                        <div class="product-price-container mb-4">
+                            <span
+                                class="current-price">{{ config('settings.currency_symbol') }}{{ number_format($product->price, 2) }}</span>
+                            @if ($product->compare_price > $product->price)
+                                <span
+                                    class="original-price">{{ config('settings.currency_symbol') }}{{ number_format($product->compare_price, 2) }}</span>
+                                <span
+                                    class="discount-badge">-{{ floor((($product->compare_price - $product->price) / $product->compare_price) * 100) }}%</span>
+                            @endif
+                        </div>
+
+                        <div class="product-short-description mb-4">
+                            <p>{{ $product->short_description }}</p>
+                        </div>
+
+                        <!-- Variations -->
+                        <div class="mb-4">
+                            <!-- Color Picker -->
+                            @if ($product->color)
+
+                            @php
+
+// Start with real variations
+$variations = $product->variations;
+
+// If product has a default color, make sure it's included
+if (!empty($product->color)) {
+    $hasDefaultColor = $variations->contains(function ($v) use ($product) {
+        return (string)$v->color === (string)$product->color;
+    });
+
+    if (!$hasDefaultColor) {
+        // Create a fake variation instance (same model class!)
+        $defaultVariation = new object([
+            'product_id' => $defaultProduct->id,
+            'color'      => $defaultProduct->color,
+            'size'       => $defaultProduct->size,
+            'sku'        => $defaultProduct->sku,
+            'price'      => $defaultProduct->price,
+            'c_price'    => $defaultProduct->compare_price,
+            'quantity'   => $defaultProduct->quantity,
+            'status'     => 1,
+        ]);
+
+        // Push into the collection
+        $variations = $variations->push($defaultVariation);
+    }
+}
+
+// Build unique color options
+$colorOptions = $variations
+    ->filter(fn($v) => !empty($v->color))
+    ->unique('color')
+    ->values();
+@endphp
+                                <label for="">selected {{ $product->color }}</label>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold"> {{ $product->leafCategory->v1st }}:</label>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        @foreach ($product->variations->unique('color') as $color)
+                                            <a href="{{ route('front.product', ['slug' => $product->slug, 'sku' => $color->sku]) }}"
+                                                class="btn btn-sm {{ $color->color == $product->color ? 'btn-primary' : 'btn-outline-secondary' }}">
+                                                {{ $color->color }}
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
+                            <!-- Size Picker -->
+                            @if ($product->leafCategory->v2nd || $product->size != '')
+                                <label for="">selected {{ $product->size }}</label>
+
+                                <div>
+                                    <label
+                                        class="form-label fw-semibold">{{ $product->leafCategory->v2nd ?? 'size' }}:</label>
+                                    <div class="d-flex gap-2 flex-wrap" id="sizeContainer">
+                                        @foreach ($product->variations->where('color', $product->color)->unique('size') as $size)
+                                            @if ($size->size)
+                                                <a href="{{ route('front.product', ['slug' => $product->slug, 'sku' => $size->sku]) }}"
+                                                    class="btn btn-sm {{ $size->size == $product->size ? 'btn-primary' : 'btn-outline-secondary' }}">
+                                                    {{ $size->size }}
+                                                </a>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Specs Dropdowns -->
+                        @if ($product->specs)
+                            @php
+                                $specs = json_decode($product->specs, true);
+                            @endphp
+                            <div class="mb-4 row gx-3 gy-3">
+                                @foreach ($specs as $key => $value)
+                                    @if (strpos($value, ',') !== false)
+                                        @php $options = explode(',', $value); @endphp
+                                        <div class="col-md-6">
+                                            <label for="{{ $key }}"
+                                                class="form-label fw-semibold text-capitalize">
+                                                {{ str_replace('_', ' ', $key) }}
+                                            </label>
+                                            <select name="{{ $key }}" id="{{ $key }}"
+                                                class="form-select">
+                                                @foreach ($options as $option)
+                                                    <option value="{{ trim($option) }}">{{ trim($option) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
+
+                        <!-- Quantity Selector -->
+                        <div class="mb-4 d-flex align-items-center gap-3">
+                            <span class="fw-semibold fs-6">Quantity:</span>
+
+                            <style>
+                                .cart-quantity {
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                }
+
+                                .wg-quantity {
+                                    display: flex;
+                                    align-items: center;
+                                    border: 0.1px solid #ddd;
+                                    border-radius: 8px;
+                                    overflow: hidden;
+                                    background-color: #fff;
+                                }
+
+                                .btn-quantity {
+                                    background-color: #f8f9fa;
+                                    border: none;
+                                    padding: 8px 12px;
+                                    font-size: 18px;
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                    transition: background-color 0.3s ease;
+                                    color: #333;
+                                }
+
+                                .btn-quantity:hover {
+                                    background-color: #e2e6ea;
+                                }
+
+                                .wg-quantity input[type="text"] {
+                                    width: 50px;
+                                    text-align: center;
+                                    border: none;
+                                    outline: none;
+                                    font-size: 16px;
+                                    padding: 8px 0;
+                                    background-color: transparent;
+                                }
+                            </style>
+                            <div class="cart-quantity">
+                                <div class="wg-quantity">
+                                    <button class="btn-quantity cart-minus-btn-qty btn">-</button>
+                                    <input type="text" value="1" name="number" id="product-quantity">
+                                    <button data-id="" class="btn-quantity cart-plus-btn-qty btn">+</button>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $('.cart-minus-btn-qty').click(function() {
+                                        let $input = $('#product-quantity');
+                                        let currentVal = parseInt($input.val());
+                                        if (currentVal > 0) {
+                                            $input.val(currentVal - 1);
+                                        }
+                                    });
+
+                                    $('.cart-plus-btn-qty').click(function() {
+                                        let $input = $('#product-quantity');
+                                        let currentVal = parseInt($input.val());
+                                        $input.val(currentVal + 1);
+                                    });
+
+                                    // Optional: Prevent manual input of negative numbers
+                                    $('#product-quantity').on('input', function() {
+                                        let val = $(this).val();
+                                        if (val === '' || isNaN(val) || parseInt(val) < 0) {
+                                            $(this).val(0);
+                                        }
+                                    });
+                                });
+                            </script>
+
+                        </div>
+
+                        <!-- Add to Cart & Wishlist Buttons -->
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <a href="javascript:void(0);" data-bs-id="{{ $product->sku }}"
+                                class="btn btn-primary flex-grow-1 quick-add-qty fw-semibold fs-5">
+                                Add to cart - <span class="ms-2">{{ config('settings.currency_symbol') }}
+                                    {{ number_format($product->price, 2) }}</span>
+                            </a>
+                            <button onclick="addToWishlist({{ $product->id }})"
+                                class="btn btn-light texy-danger btn-icon" title="Add to Wishlist">
+                                <i class="bi bi-heart fs-5"></i>
+                            </button>
+                        </div>
+
+                        <!-- Shipping Info -->
+                        <p class="mb-4 text-center">
+                            <span class="">Shipping:</span>
+
+                            {{ $product->shipping > 0 ? config('settings.currency_symbol') . $product->shipping : 'Free Shipping' }}
+                            {{ $product->shippingAddons > 0 ? ' | +' . $product->shippingAddons . ' each additional qiantity.' : '' }}
+
+
+                        </p>
+
+                        <!-- Share Buttons -->
+                        <div class="mb-4 text-center">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
+                                target="_blank" class="btn me-1" title="Facebook">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="https://api.whatsapp.com/send?text={{ urlencode(url()->current()) }}"
+                                target="_blank" class="btn me-1" title="WhatsApp">
+                                <i class="bi bi-whatsapp"></i>
+                            </a>
+                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($product->title) }}"
+                                target="_blank" class="btn me-1" title="Twitter">
+                                <i class="bi bi-twitter"></i>
+                            </a>
+                            <a href="https://pinterest.com/pin/create/button/?url={{ urlencode(url()->current()) }}"
+                                target="_blank" class="btn me-1" title="Pinterest">
+                                <i class="bi bi-pinterest"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(url()->current()) }}"
+                                target="_blank" class="btn" title="LinkedIn">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                        </div>
+
+                        <!-- Delivery & Return Info -->
+                        <div class="row text-center text-md-start mb-4">
+
+                            <div class="col-md-6">
+                                <div
+                                    class="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
+                                    <i class="bi bi-arrow-counterclockwise fs-3 text-primary"></i>
+                                    <small>Handling time:
+                                        <strong>{{ $product->h_time ?? '1 Day' }}</strong></small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <div
+                                    class="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
+                                    <i class="bi bi-truck fs-3 text-primary"></i>
+                                    <div>
+                                        <p class="mb-0">Estimate delivery:
+                                            <strong>{{ $product->d_time ?? '3-11 Days' }}</strong>
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /default -->
+    <style>
+        /* Elegant Tab Design */
+        .custom-tabs {
+            border-bottom: 1px solid #dee2e6;
+            gap: 20px;
+        }
+
+        .custom-tabs .nav-link {
+            border: none;
+            border-bottom: 3px solid transparent;
+            background-color: transparent;
+            color: #6c757d;
+            /* muted gray */
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.5rem 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .custom-tabs .nav-link:hover {
+            color: var(--accent-color);
+            /* Bootstrap blue */
+        }
+
+        .custom-tabs .nav-link.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            border-bottom: 3px solid var(--accent-color);
+        }
+    </style>
+    <section class="product-tabs pt-4 pb-5">
+        <div class="container-fluid px-lg-5">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Nav Tabs -->
+                    <ul class="nav nav-tabs custom-tabs mb-4" id="productTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
+                                data-bs-target="#description" type="button" role="tab" aria-controls="description"
+                                aria-selected="true">Description</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review"
+                                type="button" role="tab" aria-controls="review"
+                                aria-selected="false">Review</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="specification-tab" data-bs-toggle="tab"
+                                data-bs-target="#specification" type="button" role="tab"
+                                aria-controls="specification" aria-selected="false">Specification</button>
+                        </li>
+                    </ul>
+
+
+                    <!-- Tab Contents -->
+                    <div class="tab-content" id="productTabContent">
+
+                        <!-- Description Tab -->
+                        <div class="tab-pane fade show active" id="description" role="tabpanel"
+                            aria-labelledby="description-tab">
+                            <div class="p-3 bg-light rounded">
+                                {!! $product->description !!}
+                            </div>
+                        </div>
+
+                        <!-- Review Tab -->
+                        <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                            <div class="p-3 bg-light rounded">
+
+                                @php
+                                    $ratings = $product->product_ratings;
+                                    $totalRatings = $ratings->count();
+                                    $averageRating = $totalRatings > 0 ? round($ratings->avg('rating'), 1) : 0;
+                                    $ratingCounts = $ratings->groupBy('rating')->map->count();
+                                @endphp
+
+                                <div class="text-center mb-4">
+                                    <h2 class="fw-bold display-4">{{ $averageRating }}</h2>
+                                    <div>
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i
+                                                class="bi bi-star-fill {{ $i <= $averageRating ? 'text-warning' : 'text-muted' }}"></i>
+                                        @endfor
+                                    </div>
+                                    <p class="text-muted">({{ $totalRatings }} Ratings)</p>
+                                </div>
+
+                                <!-- Rating distribution bars -->
+                                <div class="mb-4">
+                                    @for ($i = 5; $i >= 1; $i--)
+                                        @php
+                                            $count = $ratingCounts->get($i, 0);
+                                            $percentage = $totalRatings > 0 ? ($count / $totalRatings) * 100 : 0;
+                                        @endphp
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span class="me-2">{{ $i }} <i
+                                                    class="bi bi-star-fill text-warning"></i></span>
+                                            <div class="progress flex-grow-1 me-2" style="height: 12px;">
+                                                <div class="progress-bar bg-warning" role="progressbar"
+                                                    style="width: {{ $percentage }}%;"
+                                                    aria-valuenow="{{ $percentage }}" aria-valuemin="0"
+                                                    aria-valuemax="100"></div>
+                                            </div>
+                                            <span>{{ $count }}</span>
+                                        </div>
+                                    @endfor
+                                </div>
+
+                                <!-- Review comments -->
+                                <h5 class="mb-3">{{ $product->product_ratings->count() }} Comments</h5>
+                                <div class="list-group mb-4">
+                                    @foreach ($product->product_ratings as $rating)
+                                        <div class="list-group-item mb-2 rounded shadow-sm">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <img src="{{ asset('front-assets/images/collections/collection-circle-9.jpg') }}"
+                                                    alt="User" class="rounded-circle me-3" width="50"
+                                                    height="50">
+                                                <div>
+                                                    <strong>{{ $rating->username }}</strong>
+                                                    <span class="text-warning ms-2">{{ $rating->rating }} <i
+                                                            class="bi bi-star-fill"></i></span>
+                                                    <div class="text-muted small">
+                                                        {{ $rating->created_at->diffForHumans() }}</div>
+                                                </div>
+                                            </div>
+                                            <p>{{ $rating->comment }}</p>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- Review form -->
+                                <form method="POST"
+                                    onsubmit="return handleFormSubmit('.form-write-review', '{{ route('front.saveReview', $product->id) }}')"
+                                    class="form-write-review">
+                                    <h5 class="mb-3">Write a review:</h5>
+
+                                    <div class="mb-3 text-start">
+                                        {{-- <label class="form-label">Rating</label> --}}
+                                        <div class="rating-stars">
+                                            @for ($i = 5; $i >= 1; $i--)
+                                                <input type="radio" id="star{{ $i }}" name="rating"
+                                                    value="{{ $i }}" class="d-none" />
+                                                <label for="star{{ $i }}" class="star fs-2"
+                                                    title="{{ $i }} stars">
+                                                    <i class="bi bi-star"></i>
+                                                </label>
+                                            @endfor
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="review-text" class="form-label">Review</label>
+                                        <textarea id="review-text" name="review" rows="4" placeholder="Write your comment here" required
+                                            class="form-control"></textarea>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6 mb-3 mb-md-0">
+                                            <input type="text" name="name" placeholder="Your Name (Public)"
+                                                required value="{{ Auth::check() ? Auth::user()->name : '' }}"
+                                                class="form-control" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="email" name="email" placeholder="Your Email (Private)"
+                                                required value="{{ Auth::check() ? Auth::user()->email : '' }}"
+                                                class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                                </form>
+
+                            </div>
+                        </div>
+
+                        <!-- Specification Tab -->
+                        <div class="tab-pane fade" id="specification" role="tabpanel"
+                            aria-labelledby="specification-tab">
+                            <div class="p-3 bg-light rounded">
+                                @if ($product->specs)
+                                    @php
+                                        $specs = json_decode($product->specs, true);
+                                    @endphp
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Specification</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if ($product->color)
+                                                <tr>
+                                                    <td>{{ $product->leafCategory->v1st }}</td>
+                                                    <td>{{ $product->color }}</td>
+                                                </tr>
+                                                @if ($product->leafCategory->v2nd)
+                                                    <tr>
+                                                        <td>{{ $product->leafCategory->v2nd }}</td>
+                                                        <td>{{ $product->size }}</td>
+                                                    </tr>
+                                                @endif
+                                            @endif
+                                            @foreach ($specs as $key => $value)
+                                                @if ($value)
+                                                    <tr>
+                                                        <td>{{ ucfirst($key) }}</td>
+                                                        <td>{{ $value }}</td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                @else
+                                    <p>No specifications available.</p>
+                                @endif
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- related products -->
+
+    @if ($relatedProducts->isNotEmpty())
+    @endif
+    <!-- /relateds product -->
+@endsection
