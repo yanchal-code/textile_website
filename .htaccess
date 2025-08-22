@@ -1,27 +1,16 @@
+<!-- php_value upload_max_filesize 100M
+php_value post_max_size 120M
+php_value max_execution_time 300
+php_value max_input_time 300 -->
+
 <IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
     RewriteEngine On
-    RewriteBase /
 
-    # Redirect Trailing Slashes…
-    RewriteRule ^(.*)/$ /$1 [L,R=301]
-
-    # If the request is not a file or directory, send to index.php
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    # Redirect all requests to public folder
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L,QSA]
 </IfModule>
-
-# Disable directory listing
-Options -Indexes
-
-# Protect .env file
-<Files .env>
-    Order allow,deny
-    Deny from all
-</Files>
-
-# Protect other sensitive files
-<FilesMatch "(artisan|composer\.(json|lock)|package\.json|webpack\.mix\.js|server\.php|phpunit\.xml|\.gitignore)">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
