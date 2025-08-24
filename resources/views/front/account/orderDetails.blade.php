@@ -1,31 +1,42 @@
 @extends('front.includes.layout')
 @section('content')
-    <!-- Page Title -->
-    <div class="page-title light-background">
-        <div class="container d-lg-flex justify-content-between align-items-center">
-            <h1 class="mb-2 mb-lg-0">My Orders</h1>
-            <nav class="breadcrumbs">
-                <ol>
-                    <li><a href="/">Home</a></li>
-                    <li class="current">orders</li>
+
+        <!-- Page Header Start -->
+    <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="display-3 h1 mb-3 animated slideInDown">My Orders</div>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-body" href="/">Home</a></li>
+                    <li class="breadcrumb-item" aria-current="page">My Account</li>
+                    <li class="breadcrumb-item text-dark active" aria-current="page">{{$order->orderId}}</li>
+
                 </ol>
             </nav>
         </div>
     </div>
-    <!-- End Page Title -->
 
     <!-- page-cart -->
     <section class="flat-spacing-11">
         <div class="container-fluid px-lg-5">
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="wrap-sidebar-account sticky-top">
-                        <ul class="my-account-nav">
-                            <li><a href="{{ route('account.profile') }}" class="my-account-nav-item ">Dashboard</a></li>
-                            <li><span class="my-account-nav-item active">Orders</span></li>
-                            <li><a href="{{ route('account.wishlist') }}" class="my-account-nav-item">Wishlist</a></li>
-                            <li><a href="{{ route('account.logout') }}" class="my-account-nav-item">Logout</a></li>
-                        </ul>
+                <div class="col-lg-3 mb-4 mb-lg-0 sticky-top top-100">
+                    <div class="card shadow-sm border-0 sticky-top">
+                        <div class="card-body p-0">
+                            <nav class="nav flex-column nav-pill text-start">
+                                <a href="{{ route('account.profile') }}"
+                                    class=" nav-link {{ request()->routeIs('account.profile') ? ' bg-primary text-white ' : '' }}">
+                                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                                </a>
+                                <a href="{{ route('account.wishlist') }}"
+                                    class="nav-link {{ request()->routeIs('account.wishlist') ? ' bg-primary text-white ' : '' }}">
+                                    <i class="bi bi-heart me-2"></i> Wishlist
+                                </a>
+                                <a href="{{ route('account.logout') }}" class="nav-link text-danger">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                </a>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-9">

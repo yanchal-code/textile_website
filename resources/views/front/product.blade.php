@@ -9,40 +9,50 @@
 
 @section('scripts')
     <script>
-        // Primary slider.
-        var primarySlider = new Splide('#primary_slider', {
-            type: 'fade',
-            heightRatio: 0.5,
-            pagination: false,
-            arrows: false,
-            cover: true,
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.product-thumbnails-slider');
+            if (!container) return;
+
+            // Initialize Swiper
+            const thumbsSwiper = new Swiper(container, {
+                loop: false,
+                speed: 400,
+                slidesPerView: 4,
+                spaceBetween: 10,
+                navigation: {
+                    nextEl: container.querySelector('.swiper-button-next'),
+                    prevEl: container.querySelector('.swiper-button-prev'),
+                },
+                breakpoints: {
+                    320: {
+                        slidesPerView: 3
+                    },
+                    576: {
+                        slidesPerView: 4
+                    },
+                },
+            });
+
+            // Thumbnail click -> update main image
+            const mainImg = document.getElementById('main-product-image');
+            container.querySelectorAll('.thumbnail-item').forEach((slide) => {
+                slide.addEventListener('click', () => {
+                    const src = slide.getAttribute('data-image');
+                    if (src && mainImg) {
+                        mainImg.src = src;
+                        mainImg.setAttribute('data-zoom', src);
+                    }
+                    container.querySelectorAll('.thumbnail-item').forEach(s => s.classList.remove(
+                        'active'));
+                    slide.classList.add('active');
+                });
+            });
         });
-
-        // Thumbnails slider.
-        var thumbnailSlider = new Splide('#thumbnail_slider', {
-            rewind: true,
-            fixedWidth: 90,
-            fixedHeight: 90,
-            isNavigation: true,
-            gap: 10,
-            focus: 'center',
-            pagination: false,
-            cover: true,
-            breakpoints: {
-                '600': {
-                    fixedWidth: 66,
-                    fixedHeight: 40,
-                }
-            }
-        }).mount();
-
-        // sync the thumbnails slider as a target of primary slider.
-        primarySlider.sync(thumbnailSlider).mount();
     </script>
 @endsection
 
 @section('head')
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content="{{ asset($product->defaultImage->image ?? $product->images->first()->image) }}">
     <meta name="twitter:title" content="{{ $product->title }}">
     <meta name="twitter:description" content="{{ $product->description }}">
     <meta name="twitter:image" content="{{ asset($product->defaultImage->image ?? $product->images->first()->image) }}">
@@ -53,10 +63,9 @@
     <meta property="og:image" content="{{ asset($product->defaultImage->image ?? $product->images->first()->image) }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="product">
-    <meta property="og:site_name" content="shopbytoday.com">
+    <meta property="og:site_name" content="{{ url('/') }}">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@1.2.0/dist/css/splide.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@1.2.0/dist/js/splide.min.js"></script>
+
     <style>
         .thumbnail_slider {
             max-width: 700px;
@@ -162,19 +171,18 @@
 @endsection
 
 @section('content')
-    <!-- Page Title -->
-    <div class="page-title light-background">
-        <div class="container d-lg-flex justify-content-between align-items-center">
-            <h1 class="mb-2 mb-lg-0">Product Detail</h1>
-            <nav class="breadcrumbs">
-                <ol>
-                    <li><a href="{{ route('front.shop') }}">Shop</a></li>
-                    <li class="current">{{ $product->slug }}</li>
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="display-3 h1 mb-3 animated slideInDown">Products</div>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-body" href="/">Home</a></li>
+                    <li class="breadcrumb-item text-dark active" aria-current="page">Products</li>
                 </ol>
             </nav>
         </div>
     </div>
-    <!-- End Page Title -->
 
     <!-- default -->
     <section id="product-details" class="product-details section">
@@ -242,12 +250,12 @@
 
                         <div class="product-price-container mb-4">
                             <span
-                                class="current-price">{{ config('settings.currency_symbol') }}{{ number_format($product->price, 2) }}</span>
+                                class="current-price me-1 fw-bold fs-4">{{ config('settings.currency_symbol') }}{{ number_format($product->price, 2) }}</span>
                             @if ($product->compare_price > $product->price)
+                                <del
+                                    class="original-price">{{ config('settings.currency_symbol') }}{{ number_format($product->compare_price, 2) }}</del>
                                 <span
-                                    class="original-price">{{ config('settings.currency_symbol') }}{{ number_format($product->compare_price, 2) }}</span>
-                                <span
-                                    class="discount-badge">-{{ floor((($product->compare_price - $product->price) / $product->compare_price) * 100) }}%</span>
+                                    class="discount-badge badge bg-danger">-{{ floor((($product->compare_price - $product->price) / $product->compare_price) * 100) }}%</span>
                             @endif
                         </div>
 
@@ -259,47 +267,28 @@
                         <div class="mb-4">
                             <!-- Color Picker -->
                             @if ($product->color)
-
-                            @php
-
-// Start with real variations
-$variations = $product->variations;
-
-// If product has a default color, make sure it's included
-if (!empty($product->color)) {
-    $hasDefaultColor = $variations->contains(function ($v) use ($product) {
-        return (string)$v->color === (string)$product->color;
-    });
-
-    if (!$hasDefaultColor) {
-        // Create a fake variation instance (same model class!)
-        $defaultVariation = new object([
-            'product_id' => $defaultProduct->id,
-            'color'      => $defaultProduct->color,
-            'size'       => $defaultProduct->size,
-            'sku'        => $defaultProduct->sku,
-            'price'      => $defaultProduct->price,
-            'c_price'    => $defaultProduct->compare_price,
-            'quantity'   => $defaultProduct->quantity,
-            'status'     => 1,
-        ]);
-
-        // Push into the collection
-        $variations = $variations->push($defaultVariation);
-    }
-}
-
-// Build unique color options
-$colorOptions = $variations
-    ->filter(fn($v) => !empty($v->color))
-    ->unique('color')
-    ->values();
-@endphp
-                                <label for="">selected {{ $product->color }}</label>
                                 <div class="mb-3">
-                                    <label class="form-label fw-semibold"> {{ $product->leafCategory->v1st }}:</label>
+                                    <label class="form-label fw-semibold">{{ $product->leafCategory->v1st }}:</label>
                                     <div class="d-flex gap-2 flex-wrap">
-                                        @foreach ($product->variations->unique('color') as $color)
+
+                                        @php
+                                            $default = getProductByid($product->id);
+
+                                            $variations = $product->variations;
+
+                                            if (!empty($product->color)) {
+                                                $defaultVariation = (object) [
+                                                    'color' => $default->color,
+                                                    'size' => $default->size,
+                                                    'sku' => $default->sku,
+                                                ];
+
+                                                $variations = $variations->push($defaultVariation);
+                                            }
+
+                                            $colorOptions = $variations->unique('color')->values();
+                                        @endphp
+                                        @foreach ($colorOptions as $color)
                                             <a href="{{ route('front.product', ['slug' => $product->slug, 'sku' => $color->sku]) }}"
                                                 class="btn btn-sm {{ $color->color == $product->color ? 'btn-primary' : 'btn-outline-secondary' }}">
                                                 {{ $color->color }}
@@ -310,14 +299,17 @@ $colorOptions = $variations
                             @endif
 
                             <!-- Size Picker -->
-                            @if ($product->leafCategory->v2nd || $product->size != '')
-                                <label for="">selected {{ $product->size }}</label>
-
+                            @if ($product->size)
+                                @php
+                                    $sizeOptions = $variations
+                                        ->where('color', $product->color)
+                                        ->unique('size')
+                                        ->values();
+                                @endphp
                                 <div>
-                                    <label
-                                        class="form-label fw-semibold">{{ $product->leafCategory->v2nd ?? 'size' }}:</label>
+                                    <label class="form-label fw-semibold">{{ $product->leafCategory->v2nd }}:</label>
                                     <div class="d-flex gap-2 flex-wrap" id="sizeContainer">
-                                        @foreach ($product->variations->where('color', $product->color)->unique('size') as $size)
+                                        @foreach ($sizeOptions as $size)
                                             @if ($size->size)
                                                 <a href="{{ route('front.product', ['slug' => $product->slug, 'sku' => $size->sku]) }}"
                                                     class="btn btn-sm {{ $size->size == $product->size ? 'btn-primary' : 'btn-outline-secondary' }}">
@@ -329,7 +321,6 @@ $colorOptions = $variations
                                 </div>
                             @endif
                         </div>
-
                         <!-- Specs Dropdowns -->
                         @if ($product->specs)
                             @php
@@ -565,7 +556,7 @@ $colorOptions = $variations
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="specification-tab" data-bs-toggle="tab"
                                 data-bs-target="#specification" type="button" role="tab"
-                                aria-controls="specification" aria-selected="false">Specification</button>
+                                aria-controls="specification" aria-selected="false">Additional Info</button>
                         </li>
                     </ul>
 
@@ -743,8 +734,20 @@ $colorOptions = $variations
 
 
     <!-- related products -->
+    <div class="container">
 
-    @if ($relatedProducts->isNotEmpty())
-    @endif
+        <div class="row g-4 my-2">
+
+            @if (count($relatedProducts) > 0)
+                @foreach ($relatedProducts as $key => $product)
+                    @include('front.partials.product', ['product' => $product])
+                @endforeach
+            @else
+                <div class="text-center fw-bold py-3">No Related Products Found</div>
+            @endif
+
+        </div>
+
+    </div>
     <!-- /relateds product -->
 @endsection

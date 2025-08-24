@@ -7,6 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductRating extends Model
 {
+    protected $fillable = [
+        'product_id',
+        'username',
+        'email',
+        'rating',
+        'status',
+        'title',
+        'comment'
+    ];
+
     use HasFactory;
     const UPDATED_AT = null;
 

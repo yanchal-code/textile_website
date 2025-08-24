@@ -1,19 +1,18 @@
 @extends('front.includes.layout')
 @section('content')
-    <!-- Page Title -->
-    <div class="pt-5 pb-1 bg-light text-center">
+  <!-- Page Header Start -->
+    <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container">
-            <h3 class=" fw-bold">Create Your Account</h3>
-            <p class="lead text-muted">Join us for early Sale access, new arrivals, and exclusive promotions.</p>
+            <div class="display-3 h1 mb-3 animated slideInDown">Create Your Account</div>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-body" href="/">Home</a></li>
+                    <li class="breadcrumb-item text-dark active" aria-current="page">Register</li>
+                </ol>
+                <p>Join us for early Sale access, new arrivals, and exclusive promotions.</p>
+            </nav>
         </div>
     </div>
-
-    <style>
-        .form-control {
-            border-radius: 0.5rem;
-            border: 1px solid #dee2e6;
-        }
-    </style>
     <!-- Registration Form Section -->
     <section class="py-5">
         <div class="container">

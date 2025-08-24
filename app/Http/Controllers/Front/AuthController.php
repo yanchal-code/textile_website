@@ -180,6 +180,16 @@ class AuthController extends Controller
 
     public function profile()
     {
+        $user = Auth::user();
+        $orders = Order::where('orders.user_id', $user->id)->orderBy('orders.created_at', 'DESC')
+            ->leftJoin('payments', 'payments.order_id', '=', 'orders.id')
+            ->select(
+                'orders.*',
+                'payments.gateway as payment_gateway',
+                'payments.currency'
+            )->get();
+
+        $data['orders'] = $orders;
         $data['address'] = CustomerAddress::where('user_id', Auth::user()->id)->first();
 
 
@@ -346,7 +356,7 @@ class AuthController extends Controller
             )->get();
 
         $data['orders'] = $orders;
-        return view('front.account.orders', $data);
+        return view('front.account.home', $data);
     }
     public function orderDetail($id)
     {

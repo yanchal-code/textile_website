@@ -333,6 +333,11 @@ class ProductController extends Controller
             );
         }
 
+        $specs = NULL;
+        if($request->specs){
+          $specs =  json_encode($request->specs);
+        }
+
         $product = Product::find($id);
         $product->name = $request->name;
         $product->slug = Str::slug($request->meta_title);
@@ -346,7 +351,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->compare_price = $request->c_price;
 
-        $product->specs = json_encode($request->specs);
+        $product->specs = $specs;
 
         $product->color = $request->color;
         $product->size = $request->size;

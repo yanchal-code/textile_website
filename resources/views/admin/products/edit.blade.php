@@ -356,7 +356,7 @@
             </div>
 
             <button id="product-create-button" type="submit" class="btn btn-success my-3">Edit Product</button>
-            <a class="btn btn-secondary my-3">Cancel</a>
+            <a href="{{ route('products.index') }}" class="btn btn-secondary my-3">Cancel</a>
 
         </form>
     </div>

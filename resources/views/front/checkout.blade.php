@@ -1,19 +1,18 @@
 @extends('front.includes.layout')
 
 @section('content')
-  <!-- Page Title -->
-    <div class="page-title light-background">
-        <div class="container d-lg-flex justify-content-between align-items-center">
-            <h1 class="mb-2 mb-lg-0">Checkout</h1>
-            <nav class="breadcrumbs">
-                <ol>
-                    <li><a href="/">Home</a></li>
-                    <li class="current">checkout</li>
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="display-3 h1 mb-3 animated slideInDown">Checkout</div>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-body" href="/">Home</a></li>
+                    <li class="breadcrumb-item text-dark active" aria-current="page">Checkout</li>
                 </ol>
             </nav>
         </div>
     </div>
-    <!-- End Page Title -->
     <!-- Checkout Section -->
     <section class="checkout-section pt-4 pb-5">
         <div class="container-fluid px-lg-5">
@@ -162,44 +161,25 @@
                         </div>
 
                         <div class="mt-4">
-                            @if (Auth::user()->region == 'India')
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" id="phonePe"
-                                        value="phonePe" checked>
-                                    <label class="form-check-label" for="phonePe">
-                                        <img src="https://media.licdn.com/dms/image/v2/D560BAQHLOrShxWW33g/company-logo_200_200/company-logo_200_200/0/1732870614932/phonepe_internet_logo?e=2147483647&v=beta&t=ADpboFA5Osbqra1iZzn343_VA2mUGAblUQe2-gejglo"
-                                            width="30" class="me-2" alt="PhonePe"> PhonePe
-                                    </label>
-                                </div>
-                            @else
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" id="paypal"
-                                        value="paypal" checked>
-                                    <label class="form-check-label" for="paypal">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/174/174861.png" width="30"
-                                            class="me-2" alt="PayPal"> PayPal
-                                    </label>
-                                </div>
 
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" id="cod"
-                                        value="cod" checked>
-                                    <label class="form-check-label" for="cod">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/174/174861.png" width="30"
-                                            class="me-2" alt="PayPal"> COD
-                                    </label>
-                                </div>
-                            @endif
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="phonePe"
+                                    value="phonePe" checked>
+                                <label class="form-check-label" for="phonePe">
+                                    <img src="https://media.licdn.com/dms/image/v2/D560BAQHLOrShxWW33g/company-logo_200_200/company-logo_200_200/0/1732870614932/phonepe_internet_logo?e=2147483647&v=beta&t=ADpboFA5Osbqra1iZzn343_VA2mUGAblUQe2-gejglo"
+                                        width="30" class="me-2" alt="PhonePe"> PhonePe
+                                </label>
+                            </div>
 
                             <small class="text-muted">
-                                Your personal data will be used to process your order, support your experience, and for
+                                Your data will be used to process your order, support your experience, and for
                                 other purposes described in our
                                 <a href="{{ route('front.page', 'privacy-policy') }}">Privacy Policy</a>.
                             </small>
                         </div>
                         <div class="checkout-button">
 
-                            <button id="checkoutSubmitBtn" class="btn btn-accent w-100 mt-4">Place Order</button>
+                            <button id="checkoutSubmitBtn" class="btn btn-primary w-100 mt-4">Place Order</button>
                         </div>
                     </div>
                 </div>

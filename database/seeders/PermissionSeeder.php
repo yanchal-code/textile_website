@@ -22,12 +22,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'manage_users', 'group' => 'User'],
             ['name' => 'manage_carousel', 'group' => 'Carousel'],
             ['name' => 'manage_static_pages', 'group' => 'Pages'],
+            ['name' => 'manage_blogs', 'group' => 'Blog'],
             ['name' => 'manage_discount_codes', 'group' => 'Discount'],
             ['name' => 'manage_seo', 'group' => 'Seo'],
             ['name' => 'manage_config', 'group' => 'Config'],
             ['name' => 'manage_setting', 'group' => 'Setting'],
-
-
 
             ['name' => 'manage_permissions', 'group' => 'Permissions'],
 

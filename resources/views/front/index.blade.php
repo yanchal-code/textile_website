@@ -3,46 +3,6 @@
     @endphp
 
     @extends('front.includes.layout')
-    @section('head')
-        <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
-        <style>
-            #sliderImage {
-                transition: opacity 0.5s;
-            }
-
-            .tf-marquee {
-                background-color: #fff8db;
-                /* light yellow background, similar to Bootstrap's bg-yellow-200 */
-                position: relative;
-                white-space: nowrap;
-            }
-
-            .wrap-marquee {
-                display: inline-flex;
-                animation: marqueeScroll 25s linear infinite;
-            }
-
-            .marquee-item {
-                flex: 0 0 auto;
-            }
-
-            .icon svg {
-                fill: #f59e0b;
-                /* amber-500 from Tailwind for a nice yellow */
-                display: block;
-            }
-
-            @keyframes marqueeScroll {
-                0% {
-                    transform: translateX(0%);
-                }
-
-                100% {
-                    transform: translateX(-50%);
-                }
-            }
-        </style>
-    @endsection
 
     @section('content')
         <!-- Carousel Start -->
@@ -123,7 +83,6 @@
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="bg-white text-center h-100 p-4 p-xl-5">
                             <img class="img-fluid mb-4" src="{{ asset('assets/img/icon-1.png') }}" alt="Natural Farming">
-                            <i class="display-1">🌱</i>
                             <h4 class="mb-3">Natural Process</h4>
                             <p class="mb-4">Our fruits and vegetables are grown using traditional farming practices – free
                                 from harmful chemicals and pesticides.</p>
@@ -133,7 +92,6 @@
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="bg-white text-center h-100 p-4 p-xl-5">
                             <img class="img-fluid mb-4" src="{{ asset('assets/img/icon-2.png') }}" alt="Organic Products">
-                            <i class="display-1">🥕</i>
                             <h4 class="mb-3">100% Organic</h4>
                             <p class="mb-4">We bring you certified organic produce, handpicked daily from trusted farmers
                                 to guarantee freshness and nutrition.</p>
@@ -143,7 +101,6 @@
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="bg-white text-center h-100 p-4 p-xl-5">
                             <img class="img-fluid mb-4" src="{{ asset('assets/img/icon-3.png') }}" alt="Safe & Healthy">
-                            <i class="display-1">🛡️</i>
                             <h4 class="mb-3">Safe & Healthy</h4>
                             <p class="mb-4">Every product we deliver is biologically safe, nutrient-rich, and handled with
                                 utmost care to keep your family healthy.</p>
@@ -154,7 +111,6 @@
             </div>
         </div>
         <!-- Feature End -->
-
 
         <div class="container-xxl py-5">
             <div class="container">
@@ -201,7 +157,6 @@
                     @endforeach
                 </div>
             </div>
-            X
         </div>
         <!-- Product End -->
         <!-- Firm Visit Start -->
@@ -228,131 +183,85 @@
             </div>
         </div>
         <!-- Firm Visit End -->
-<!-- Testimonial Start -->
-<div class="container-fluid bg-light bg-icon py-6 mb-5">
-    <div class="container">
-        <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-            <div class="display-5 h1 mb-3">What Our Customers Say</div>
-            <p>Real stories from people who enjoy the freshness and goodness of our organic products every day.</p>
-        </div>
-        <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+        <!-- Testimonial Start -->
+        <div class="container-fluid bg-light bg-icon py-6 mb-5">
+            <div class="container">
+                <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s"
+                    style="max-width: 500px;">
+                    <div class="display-5 h1 mb-3">What Our Customers Say</div>
+                    <p>Real stories from people who enjoy the freshness and goodness of our organic products every day.</p>
+                </div>
+                <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+                    @foreach (getTestimonials() as $review)
+                        <div class="testimonial-item position-relative bg-white p-5 mt-4">
+                            <i class="fa fa-quote-left fa-3x text-primary position-absolute top-0 start-0 mt-n4 ms-5"></i>
+                            <p class="mb-4">“{{ $review->comment }}”</p>
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 rounded-circle" src="{{ asset(config('settings.logo')) }}"
+                                    alt="{{ $review->username }}">
+                                <div class="ms-3">
+                                    <h5 class="mb-1">{{ $review->username }}</h5>
+                                    <span>{{ $review->title ?? 'Customer' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
 
-            <div class="testimonial-item position-relative bg-white p-5 mt-4">
-                <i class="fa fa-quote-left fa-3x text-primary position-absolute top-0 start-0 mt-n4 ms-5"></i>
-                <p class="mb-4">“The vegetables I received were incredibly fresh and full of flavor.
-                    It feels so good knowing my family is eating chemical-free produce straight from the farm.”</p>
-                <div class="d-flex align-items-center">
-                    <img class="flex-shrink-0 rounded-circle" src="assets/img/testimonial-1.jpg" alt="Customer">
-                    <div class="ms-3">
-                        <h5 class="mb-1">Anjali Mehra</h5>
-                        <span>Homemaker</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-item position-relative bg-white p-5 mt-4">
-                <i class="fa fa-quote-left fa-3x text-primary position-absolute top-0 start-0 mt-n4 ms-5"></i>
-                <p class="mb-4">“I love how easy it is to order online. The fruits taste just like they should—sweet,
-                    juicy, and natural. This is my go-to place for organic shopping.”</p>
-                <div class="d-flex align-items-center">
-                    <img class="flex-shrink-0 rounded-circle" src="assets/img/testimonial-2.jpg" alt="Customer">
-                    <div class="ms-3">
-                        <h5 class="mb-1">Rahul Sharma</h5>
-                        <span>IT Professional</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-item position-relative bg-white p-5 mt-4">
-                <i class="fa fa-quote-left fa-3x text-primary position-absolute top-0 start-0 mt-n4 ms-5"></i>
-                <p class="mb-4">“I visited the farm last month and was amazed by the clean and sustainable methods
-                    they use. It made me trust the products even more.”</p>
-                <div class="d-flex align-items-center">
-                    <img class="flex-shrink-0 rounded-circle" src="assets/img/testimonial-3.jpg" alt="Customer">
-                    <div class="ms-3">
-                        <h5 class="mb-1">Rajiv Kapoor</h5>
-                        <span>Nutritionist</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-item position-relative bg-white p-5 mt-4">
-                <i class="fa fa-quote-left fa-3x text-primary position-absolute top-0 start-0 mt-n4 ms-5"></i>
-                <p class="mb-4">“The quality of the organic grains and pulses is unmatched.
-                    You can truly taste the difference compared to store-bought items.”</p>
-                <div class="d-flex align-items-center">
-                    <img class="flex-shrink-0 rounded-circle" src="assets/img/testimonial-4.jpg" alt="Customer">
-                    <div class="ms-3">
-                        <h5 class="mb-1">Sneha Patel</h5>
-                        <span>Entrepreneur</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<!-- Testimonial End -->
-
-<!-- Blog Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-            <div class="display-5 h1 mb-3">Latest Blog</div>
-            <p>Explore tips, insights, and stories about organic farming, sustainability, and healthy living directly from our experts.</p>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <img class="img-fluid" src="assets/img/blog-1.jpg" alt="Organic Farming Blog">
-                <div class="bg-light p-4">
-                    <a class="d-block h5 lh-base mb-4" href="">
-                        5 Benefits of Choosing Organic Fruits and Vegetables
-                    </a>
-                    <p class="mb-3">Discover why going organic is healthier for you and better for the environment. From nutrition to taste, here’s what makes the difference.</p>
-                    <div class="text-muted border-top pt-4">
-                        <small class="me-3"><i class="fa fa-user text-primary me-2"></i>Admin</small>
-                        <small class="me-3"><i class="fa fa-calendar text-primary me-2"></i>01 Aug, 2025</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <img class="img-fluid" src="assets/img/blog-2.jpg" alt="Healthy Lifestyle Blog">
-                <div class="bg-light p-4">
-                    <a class="d-block h5 lh-base mb-4" href="">
-                        How to Start Your Own Organic Kitchen Garden
-                    </a>
-                    <p class="mb-3">Learn simple steps to grow fresh vegetables and herbs at home without chemicals — perfect for beginners who love healthy food.</p>
-                    <div class="text-muted border-top pt-4">
-                        <small class="me-3"><i class="fa fa-user text-primary me-2"></i>Admin</small>
-                        <small class="me-3"><i class="fa fa-calendar text-primary me-2"></i>10 Aug, 2025</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <img class="img-fluid" src="assets/img/blog-3.jpg" alt="Sustainable Farming Blog">
-                <div class="bg-light p-4">
-                    <a class="d-block h5 lh-base mb-4" href="">
-                        Sustainable Farming: Building a Greener Future
-                    </a>
-                    <p class="mb-3">Explore how organic farming practices support biodiversity, reduce pollution, and create a healthier planet for future generations.</p>
-                    <div class="text-muted border-top pt-4">
-                        <small class="me-3"><i class="fa fa-user text-primary me-2"></i>Admin</small>
-                        <small class="me-3"><i class="fa fa-calendar text-primary me-2"></i>20 Aug, 2025</small>
-                    </div>
-                </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- Blog End -->
+        <!-- Testimonial End -->
+
+        <!-- Blog Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s"
+                    style="max-width: 500px;">
+                    <div class="display-5 h1 mb-3">Latest Blog</div>
+                    <p>Explore tips, insights, and stories about organic farming, sustainability, and healthy living
+                        directly from our experts.</p>
+                </div>
+                <div class="row g-4">
+                    @foreach ($blogs as $blog)
+                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="blog-img-wrapper">
+                                <a href="{{ route('front.blog.show', $blog->slug) }}">
+                                    <img class="img-fluid blog-img" src="{{ asset($blog->image) }}"
+                                        alt="{{ $blog->alt_image_text }}">
+                                </a>
+
+                            </div>
+                            <div class="bg-light p-4">
+                                <a class="d-block h5 lh-base mb-4" href="{{ route('front.blog.show', $blog->slug) }}">
+                                    {{ $blog->title }}
+                                </a>
+                                <p class="mb-3">{{ \Illuminate\Support\Str::limit(strip_tags($blog->content), 100) }}
+                                </p>
+                                <div class="text-muted border-top pt-4">
+                                    <small class="me-3"><i
+                                            class="fa fa-user text-primary me-2"></i>{{ $blog->author?->name }}</small>
+                                    <small class="me-3"><i
+                                            class="fa fa-calendar text-primary me-2"></i>{{ $blog->created_at->format('d M, Y') }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="text-center my-3">
+                <a class="btn btn-primary" href="{{ route('front.blogs') }}">View More Blogs</a>
+            </div>
+        </div>
+        <!-- Blog End -->
 
         <style>
             #shop_content {
                 transition: all 0.4s ease;
             }
         </style>
-        <div class="text-center"><button class="btn btn-primary tf-btn mb-3" data-aos="fade-up" id="toggleButton">View
-                More</button></div>
+        <div class="text-center"><button class="btn btn-outline-primary tf-btn mb-3" data-aos="fade-up"
+                id="toggleButton">View
+                More Content</button></div>
         <div class="container-fluid d-none" id="home_content">
             @include('seo.bodyBottomTagCodes')
         </div>
@@ -363,9 +272,9 @@
                     $('#home_content').toggleClass('d-none');
 
                     if ($('#home_content').hasClass('d-none')) {
-                        $(this).text('View More');
+                        $(this).text('View More Content');
                     } else {
-                        $(this).text('View Less');
+                        $(this).text('View Less Content');
                     }
                 });
             });

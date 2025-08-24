@@ -8,20 +8,21 @@
 @endsection
 
 @section('content')
-
     @if ($page->slug == 'contact-us')
-        <!-- Page Title -->
-        <div class="page-title light-background">
-            <div class="container d-lg-flex justify-content-between align-items-center">
-                <h1 class="mb-2 mb-lg-0">Contact</h1>
-                <nav class="breadcrumbs">
-                    <ol>
-                        <li><a href="/">Home</a></li>
-                        <li class="current">Contact</li>
+        <!-- Page Header Start -->
+        <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="display-3 h1 mb-3 animated slideInDown">Contact Us</div>
+                <nav aria-label="breadcrumb animated slideInDown">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a class="text-body" href="/">Home</a></li>
+                        <li class="breadcrumb-item">pages</li>
+                        <li class="breadcrumb-item text-dark active" aria-current="page">contact-us</li>
+
                     </ol>
                 </nav>
             </div>
-        </div><!-- End Page Title -->
+        </div>
 
         <!-- Contact 2 Section -->
         <section id="contact-2" class="contact-2 section">
@@ -35,7 +36,7 @@
                             data-aos="fade-up" data-aos-delay="200">
                             <i class="bi bi-geo-alt"></i>
                             <h3>Address</h3>
-                            <p>{{config('settings.address')}}</p>
+                            <p>{{ config('settings.address') }}</p>
                         </div>
                     </div><!-- End Info Item -->
 
@@ -44,7 +45,7 @@
                             data-aos="fade-up" data-aos-delay="300">
                             <i class="bi bi-telephone"></i>
                             <h3>Call Us</h3>
-                            <p><a href="tel:{{config('settings.phone')}}">{{config('settings.phone')}}</a></p>
+                            <p><a href="tel:{{ config('settings.phone') }}">{{ config('settings.phone') }}</a></p>
                         </div>
                     </div><!-- End Info Item -->
 
@@ -53,7 +54,7 @@
                             data-aos="fade-up" data-aos-delay="400">
                             <i class="bi bi-envelope"></i>
                             <h3>Email Us</h3>
-                            <p><a href="mailto:{{config('settings.email')}}">{{config('settings.email')}}</a></p>
+                            <p><a href="mailto:{{ config('settings.email') }}">{{ config('settings.email') }}</a></p>
                         </div>
                     </div><!-- End Info Item -->
 
@@ -68,7 +69,8 @@
                     </div><!-- End Google Maps -->
 
                     <div class="col-lg-6">
-                        <form method="post" class="php-email-form form-contact needs-validation" novalidate data-aos="fade-up" data-aos-delay="400"
+                        <form method="post" class="php-email-form form-contact needs-validation" novalidate
+                            data-aos="fade-up" data-aos-delay="400"
                             onsubmit="return handleFormSubmit('.form-contact', '{{ route('front.sendContactEmail') }}')">
                             <div class="row gy-4">
 
@@ -93,7 +95,7 @@
 
                                 <div class="col-md-12 text-center">
 
-                                    <button type="submit">Send Message</button>
+                                    <button class="btn btn-primary" type="submit">Send Message</button>
                                 </div>
 
                             </div>
@@ -106,19 +108,20 @@
 
         </section><!-- /Contact 2 Section -->
     @else
-    <!-- Page Title -->
-        <div class="page-title light-background">
-            <div class="container d-lg-flex justify-content-between align-items-center">
-                <h1 class="mb-2 mb-lg-0">{{$page->name}}</h1>
-                <nav class="breadcrumbs">
-                    <ol>
-                        <li><a href="/">Home</a></li>
-                        <li class="current">{{$page->slug}}</li>
+        <!-- Page Header Start -->
+        <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="display-3 h1 mb-3 animated slideInDown">{{ $page->name }}</div>
+                <nav aria-label="breadcrumb animated slideInDown">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a class="text-body" href="/">Home</a></li>
+                        <li class="breadcrumb-item">pages</li>
+                        <li class="breadcrumb-item text-dark active" aria-current="page">{{ $page->slug }}</li>
+
                     </ol>
                 </nav>
             </div>
         </div>
-    <!-- End Page Title -->
         <!-- main-page -->
         <section class="flat-spacing-25">
             <div class="container">

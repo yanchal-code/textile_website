@@ -10,6 +10,7 @@ use App\Models\Page;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\ProductImage;
+use App\Models\ProductRating;
 use App\Models\ProductVariation;
 use App\Models\Wishlist;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -48,11 +49,10 @@ function leafCategories()
 }
 function getProductsBySubCategory()
 {
-    // Get all active leaf categories that have products
     $subCategories = LeafCategory::where('status', 1)
         ->whereHas('products')
         ->with(['products' => function ($q) {
-            $q->latest()->take(8); // latest 8 products
+            $q->latest()->take(8);
         }])
         ->get();
 
@@ -185,6 +185,28 @@ function getProduct($sku)
         }
 
         $product = $variation->product;
+    }
+
+    return $product;
+}
+
+function gettesTimonials()
+{
+    $testimonials = ProductRating::where('status', 1)
+        ->inRandomOrder()
+        ->take(10)
+        ->get();
+    return $testimonials;
+
+}
+function getProductByid($id)
+{
+
+
+    $product = Product::find($id);
+
+    if ($product == null) {
+        return 'Sorry, product not found.';
     }
 
     return $product;

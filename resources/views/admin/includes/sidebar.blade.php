@@ -51,6 +51,11 @@
                class="bi bi-filetype-html"></i> Static Pages</a>
    @endcan
 
+      @can('manage_blogs')
+       <a id="nav-item_blogs" href="{{ route('blogs.index') }}" class="nav-item nav-link"><i
+               class="bi bi-filetype-html"></i> Blogs</a>
+   @endcan
+
    @can('manage_discount_codes')
        <a id="nav-item_discount_code" href="{{ route('discount.view') }}" class="nav-item nav-link"><i
                class="bi bi-percent"></i> Discount Codes</a>

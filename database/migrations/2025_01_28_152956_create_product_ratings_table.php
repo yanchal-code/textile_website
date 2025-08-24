@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('status')->default(0);
             $table->text('title')->nullable();
             $table->longText('comment');
-
             $table->timestamps();
         });
     }

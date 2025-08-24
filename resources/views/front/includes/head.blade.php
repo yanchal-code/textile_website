@@ -44,3 +44,28 @@
 
  <!-- Template Stylesheet -->
  <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+ <style>
+     .product-item img {
+         height: 250px;
+         width: 100%;
+         object-fit: cover;
+     }
+
+     .blog-img-wrapper {
+         width: 100%;
+         height: 250px;
+         overflow: hidden;
+     }
+
+     .blog-img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+         transition: transform 0.4s ease;
+     }
+
+     .blog-img:hover {
+         transform: scale(1.05);
+     }
+ </style>

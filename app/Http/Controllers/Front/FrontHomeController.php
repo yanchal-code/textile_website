@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Services\MailChimpClass;
+use App\Models\Blog;
 use App\Models\ProductRating;
 
 class FrontHomeController extends Controller
@@ -42,17 +43,37 @@ class FrontHomeController extends Controller
             ->shuffle()
             ->take(10);
 
-        $testimonials = ProductRating::where('status', 1)
-            ->latest()
-            ->get();
-
-        $data['testimonials'] = $testimonials;
-
+        $blogs = Blog::inRandomOrder()->take(6)->get();
+        $data['blogs'] = $blogs;
         $data['featured'] = $featured;
         $data['products'] = $products;
 
         return view('front.index', $data);
     }
+
+    public function blogs()
+    {
+        $blogs = Blog::latest()->paginate(12);
+        $data['blogs'] = $blogs;
+
+        return view('front.blogs', $data);
+    }
+
+    public function blog($slug = null)
+    {
+        $blog = Blog::where('slug', $slug)->first();
+        if ($slug == null) {
+            abort(404);
+        }
+        $data['blog'] = $blog;
+
+        $relatedBlogs = null;
+        $data['relatedBlogs'] = $relatedBlogs;
+        $recentBlogs = Blog::latest()->inRandomOrder()->take(6)->get();
+        $data['recentBlogs'] = $recentBlogs;
+        return view('front.blog', $data);
+    }
+
     public function page($slug)
     {
         $page = Page::where('slug', $slug)->first();
@@ -163,7 +184,7 @@ class FrontHomeController extends Controller
             }
         }
     }
-     public function newsletter(Request $request)
+    public function newsletter(Request $request)
     {
 
         $validator = Validator::make($request->all(), [

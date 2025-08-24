@@ -7,7 +7,7 @@ use Spatie\Sitemap\Tags\Url;
 
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminPermissionController;
-
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CarouselController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -224,6 +224,15 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('product/reviews/delete', 'reviewDestroy')->name('reviews.delete');
         });
 
+        Route::controller(BlogController::class)->group(function () {
+            Route::get('blogs', 'index')->name('blogs.index');
+            Route::get('blogs/create', 'create')->name('blogs.create');
+            Route::post('blogs/store', 'store')->name('blogs.store');
+            Route::get('blogs/{blog}/edit', 'edit')->name('blogs.edit');
+            Route::post('blogs/{blog}/edit/store', 'update')->name('blogs.update');
+            Route::post('blogs/destroy', 'destroy')->name('blogs.destroy');
+        });
+
         Route::controller(ImportController::class)->middleware('check.permission:manage_inventory')->group(function () {
             Route::post('import-products', 'importProducts')->name('products.import');
             Route::post('export-example', 'exportExample')->name('product.example.export');
@@ -282,6 +291,9 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::controller(FrontHomeController::class)->group(function () {
     Route::get('/',  'home')->name('front.home');
+    Route::get('/blogs',  'blogs')->name('front.blogs');
+    Route::get('/blogs/blog/{slug?}',  'blog')->name('front.blog.show');
+
     Route::get('page/{slug}', 'page')->name('front.page');
 
     Route::post('add-to-wishList', 'addToWishlist')->name('front.addToWishlist');
