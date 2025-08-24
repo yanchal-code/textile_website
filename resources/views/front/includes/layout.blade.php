@@ -48,7 +48,7 @@
                 <div class="fw-bold text-primary h1 m-0">
                     <img height="80" style="border-radius: 3px;" src="{{ asset(config('settings.logo')) }}"
                         alt="{{ config('settings.name') }}">
-                    {{ config('settings.name') }}
+
                 </div>
             </a>
             <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
