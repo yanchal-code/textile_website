@@ -2,24 +2,24 @@
 @section('content')
     <main class="main__content_wrapper">
         <!-- Start slider section -->
-      <section class="hero__slider--section color-scheme-2">
-    <div class="hero__slider--inner hero__slider--activation swiper">
-        <div class="hero__slider--wrapper swiper-wrapper">
-            
-            @foreach (carousel() as $key => $carousel)
-                <div class="swiper-slide">
-                    <div 
-                        class="hero__slider--items" 
-                        style="background-image: url('{{ asset($carousel->image_path) }}'); background-size: cover; background-position: center;"
-                    >
-                        <div class="container-fluid">
-                            <div class="hero__slider--items__inner hero__slider--bg2__inner">
-                                <div class="row row-cols-1">
-                                    <div class="col">
-                                        <div class="slider__content">
-                                            <p class="slider__content--desc desc1 text__secondary2 mb-15">
-                                                {{ $carousel->subtitle ?? 'Big Offer 50% off' }}
-                                            </p>
+            <section class="hero__slider--section color-scheme-2">
+            <div class="hero__slider--inner hero__slider--activation swiper">
+                <div class="hero__slider--wrapper swiper-wrapper">
+                    
+                    @foreach (carousel() as $key => $carousel)
+                        <div class="swiper-slide">
+                            <div 
+                                class="hero__slider--items" 
+                                style="background-image: url('{{ asset($carousel->image_path) }}'); background-size: cover; background-position: center;"
+                            >
+                                <div class="container-fluid">
+                                    <div class="hero__slider--items__inner hero__slider--bg2__inner">
+                                        <div class="row row-cols-1">
+                                            <div class="col">
+                                                <div class="slider__content">
+                                                    <p class="slider__content--desc desc1 text__secondary2 mb-15">
+                                                        {{ $carousel->subtitle ?? 'Big Offer 50% off' }}
+                                                    </p>
                                             <h2 class="slider__content--maintitle h1">
                                                 {!! nl2br(e($carousel->title)) !!}
                                             </h2>
@@ -51,73 +51,72 @@
         <!-- End slider section -->
 
         <!-- Start banner section -->
-<section class="banner__section banner__style2 section--padding color-scheme-2">
-    <div class="section__heading text-center mb-35">
-        <h2 class="section__heading--maintitle style2">Shop by Categories</h2>
-    </div>
-    <div class="container-fluid">
-        <div class="row mb--n28">
-            @php
-                $categories = categories();
-            @endphp
+    <section class="banner__section banner__style2 section--padding color-scheme-2">
+        <div class="section__heading text-center mb-35">
+            <h2 class="section__heading--maintitle style2">Shop by Categories</h2>
+        </div>
+        <div class="container-fluid">
+            <div class="row mb--n28">
+                @php
+                    $categories = categories();
+                @endphp
 
-            {{-- Left Column - 1 Large Banner --}}
-            @if($categories->get(0))
-            <div class="col-lg-4 col-md-order mb-28">
-                <div class="banner__items position__relative">
-                    <a class="banner__items--thumbnail" href="{{ route('shop') }}">
-                        <img class="banner__items--thumbnail__img" src="{{ asset($categories[0]->image) }}" alt="{{ $categories[0]->name }}">
-                        <div class="banner__items--content style2">
-                            <h3 class="banner__items--content__title style2">{{ strtoupper($categories[0]->name) }}</h3>
-                            <span class="banner__items--content__link style2">SHOP NOW</span>
-                        </div>
-                    </a>
+                {{-- Left Column - 1 Large Banner --}}
+                @if($categories->get(0))
+                <div class="col-lg-4 col-md-order mb-28">
+                    <div class="banner__items position__relative">
+                        <a class="banner__items--thumbnail" href="{{ route('shop') }}">
+                            <img class="banner__items--thumbnail__img" src="{{ asset($categories[0]->image) }}" alt="{{ $categories[0]->name }}">
+                            <div class="banner__items--content style2">
+                                <h3 class="banner__items--content__title style2">{{ strtoupper($categories[0]->name) }}</h3>
+                                <span class="banner__items--content__link style2">SHOP NOW</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            @endif
+                @endif
 
-            {{-- Right Column --}}
-            <div class="col-lg-8">
-                {{-- Top Row - 2 Horizontal Banners --}}
-                <div class="banner__style2--top__sidebar d-flex">
-                    @foreach([$categories->get(1), $categories->get(2)] as $cat)
-                        @if($cat)
-                        <div class="banner__items position__relative mr-30 mb-28">
-                            <a class="banner__items--thumbnail" href="{{ route('shop') }}">
-                                <img class="banner__items--thumbnail__img banner__img--max__height"  src="{{ asset($cat->image) }}" alt="{{ $cat->name }}" style="height: 300px;width:500px; object-fit: cover;">
-                                <div class="banner__items--content style2">
-                                    <h3 class="banner__items--content__title style2">{{ strtoupper($cat->name) }}</h3>
-                                    <span class="banner__items--content__link style2">SHOP NOW</span>
-                                </div>
-                            </a>
-                        </div>
-                        @endif
-                    @endforeach
-                </div>
-
-                {{-- Bottom Row - 2 Grid Banners --}}
-                <div class="row row-cols-sm-2 row-cols-1">
-                    @foreach([$categories->get(3), $categories->get(4)] as $cat)
-                        @if($cat)
-                        <div class="col mb-28">
-                            <div class="banner__items position__relative">
+                {{-- Right Column --}}
+                <div class="col-lg-8">
+                    {{-- Top Row - 2 Horizontal Banners --}}
+                    <div class="banner__style2--top__sidebar d-flex">
+                        @foreach([$categories->get(1), $categories->get(2)] as $cat)
+                            @if($cat)
+                            <div class="banner__items position__relative mr-30 mb-28">
                                 <a class="banner__items--thumbnail" href="{{ route('shop') }}">
-                                    <img class="banner__items--thumbnail__img banner__img--max__height" src="{{ asset($cat->image) }}" style="height: 300px;width:500px; object-fit: cover;" alt="{{ $cat->name }}">
-                                    <div class="banner__items--content style2 {{ $loop->last ? 'right' : '' }}">
+                                    <img class="banner__items--thumbnail__img banner__img--max__height"  src="{{ asset($cat->image) }}" alt="{{ $cat->name }}" style="height: 300px;width:500px; object-fit: cover;">
+                                    <div class="banner__items--content style2">
                                         <h3 class="banner__items--content__title style2">{{ strtoupper($cat->name) }}</h3>
                                         <span class="banner__items--content__link style2">SHOP NOW</span>
                                     </div>
                                 </a>
                             </div>
-                        </div>
-                        @endif
-                    @endforeach
+                            @endif
+                        @endforeach
+                    </div>
+
+                    {{-- Bottom Row - 2 Grid Banners --}}
+                    <div class="row row-cols-sm-2 row-cols-1">
+                        @foreach([$categories->get(3), $categories->get(4)] as $cat)
+                            @if($cat)
+                            <div class="col mb-28">
+                                <div class="banner__items position__relative">
+                                    <a class="banner__items--thumbnail" href="{{ route('shop') }}">
+                                        <img class="banner__items--thumbnail__img banner__img--max__height" src="{{ asset($cat->image) }}" style="height: 300px;width:500px; object-fit: cover;" alt="{{ $cat->name }}">
+                                        <div class="banner__items--content style2 {{ $loop->last ? 'right' : '' }}">
+                                            <h3 class="banner__items--content__title style2">{{ strtoupper($cat->name) }}</h3>
+                                            <span class="banner__items--content__link style2">SHOP NOW</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
         <!-- Start product section -->
         <section class="product__section section--padding color-scheme-2 pt-0">
             <div class="container-fluid">
