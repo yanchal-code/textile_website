@@ -252,8 +252,6 @@
 
                             </td>
 
-                            <td><a href="{{route('front.product',$product->sku)}}">{{ $product->sku }}</a></td>
-
                             <td>{{ $product->name }}</td>
 
                             <td>{{ $product->design_number ?? 'N/A' }}</td>

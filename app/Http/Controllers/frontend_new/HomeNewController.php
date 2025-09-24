@@ -142,8 +142,7 @@ class HomeNewController extends Controller
                 ->get();
         }   
 
-        dd($products);
-        return view('frontend_new.shop');
+        return view('frontend_new.shop',compact('products'));
     }
 
     public function wishlist()
