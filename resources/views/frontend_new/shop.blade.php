@@ -9,10 +9,10 @@
                 <div class="row row-cols-1">
                     <div class="col">
                         <div class="breadcrumb__content text-center">
-                            <h1 class="breadcrumb__content--title text-white mb-25">Shop Left Sidebar</h1>
+                            <h1 class="breadcrumb__content--title text-white mb-25">Explore Products</h1>
                             <ul class="breadcrumb__content--menu d-flex justify-content-center">
                                 <li class="breadcrumb__content--menu__items"><a class="text-white" href="index.html">Home</a></li>
-                                <li class="breadcrumb__content--menu__items"><span class="text-white">Shop Left Sidebar</span></li>
+                                <li class="breadcrumb__content--menu__items"><span class="text-white">Explore Products</span></li>
                             </ul>
                         </div>
                     </div>

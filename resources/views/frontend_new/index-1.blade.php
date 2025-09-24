@@ -2,127 +2,84 @@
 @section('content')
     <main class="main__content_wrapper">
         <!-- Start slider section -->
-      <section class="hero__slider--section color-scheme-2">
-    <div class="hero__slider--inner hero__slider--activation swiper">
-        <div class="hero__slider--wrapper swiper-wrapper">
-            
-            @foreach (carousel() as $key => $carousel)
-                <div class="swiper-slide">
-                    <div 
-                        class="hero__slider--items" 
-                        style="background-image: url('{{ asset($carousel->image_path) }}'); background-size: cover; background-position: center;"
-                    >
-                        <div class="container-fluid">
-                            <div class="hero__slider--items__inner hero__slider--bg2__inner">
-                                <div class="row row-cols-1">
-                                    <div class="col">
-                                        <div class="slider__content">
-                                            <p class="slider__content--desc desc1 text__secondary2 mb-15">
-                                                {{ $carousel->subtitle ?? 'Big Offer 50% off' }}
-                                            </p>
-                                            <h2 class="slider__content--maintitle h1">
-                                                {!! nl2br(e($carousel->title)) !!}
-                                            </h2>
-                                            <p class="slider__content--desc desc2 d-sm-2-none mb-40">
-                                                {!! nl2br(e($carousel->description)) !!}
-                                            </p>
-                                            <a class="bg__secondary2 slider__btn primary__btn" href="{{ $carousel->btn_link }}">
-                                                {{ $carousel->btn_text ?? 'Show Collection' }}
-                                                <svg class="primary__btn--arrow__icon" xmlns="http://www.w3.org/2000/svg" width="20.2" height="12.2" viewBox="0 0 6.2 6.2">
-                                                    <path d="M7.1,4l-.546.546L8.716,6.713H4v.775H8.716L6.554,9.654,7.1,10.2,9.233,8.067,10.2,7.1Z" transform="translate(-4 -4)" fill="currentColor"/>
-                                                </svg>
-                                            </a>
+        <section class="hero__slider--section color-scheme-2">
+            <div class="hero__slider--inner hero__slider--activation swiper">
+                <div class="hero__slider--wrapper swiper-wrapper">
+                    
+                    @foreach (carousel() as $key => $carousel)
+                        <div class="swiper-slide">
+                            <div 
+                                class="hero__slider--items" 
+                                style="background-image: url('{{ asset($carousel->image_path) }}'); background-size: cover; background-position: center;"
+                            >
+                                <div class="container-fluid">
+                                    <div class="hero__slider--items__inner hero__slider--bg2__inner">
+                                        <div class="row row-cols-1">
+                                            <div class="col">
+                                                <div class="slider__content">
+                                                    <p class="slider__content--desc desc1 text__secondary2 mb-15">
+                                                        {{ $carousel->subtitle ?? 'Big Offer 50% off' }}
+                                                    </p>
+                                                    <h2 class="slider__content--maintitle h1">
+                                                        {!! nl2br(e($carousel->title)) !!}
+                                                    </h2>
+                                                    <p class="slider__content--desc desc2 d-sm-2-none mb-40">
+                                                        {!! nl2br(e($carousel->description)) !!}
+                                                    </p>
+                                                    <a class="bg__secondary2 slider__btn primary__btn" href="{{ $carousel->btn_link }}">
+                                                        {{ $carousel->btn_text ?? 'Show Collection' }}
+                                                        <svg class="primary__btn--arrow__icon" xmlns="http://www.w3.org/2000/svg" width="20.2" height="12.2" viewBox="0 0 6.2 6.2">
+                                                            <path d="M7.1,4l-.546.546L8.716,6.713H4v.775H8.716L6.554,9.654,7.1,10.2,9.233,8.067,10.2,7.1Z" transform="translate(-4 -4)" fill="currentColor"/>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
+
                 </div>
-            @endforeach
 
-        </div>
-
-        <div class="swiper__nav--btn swiper-button-next"></div>
-        <div class="swiper__nav--btn swiper-button-prev"></div>
-    </div>
-    </section>
+                <div class="swiper__nav--btn swiper-button-next"></div>
+                <div class="swiper__nav--btn swiper-button-prev"></div>
+            </div>
+        </section>
 
         <!-- End slider section -->
 
         <!-- Start banner section -->
-<section class="banner__section banner__style2 section--padding color-scheme-2">
-    <div class="section__heading text-center mb-35">
-        <h2 class="section__heading--maintitle style2">Shop by Categories</h2>
-    </div>
-    <div class="container-fluid">
-        <div class="row mb--n28">
-            @php
-                $categories = categories();
-            @endphp
-
-            {{-- Left Column - 1 Large Banner --}}
-            @if($categories->get(0))
-            <div class="col-lg-4 col-md-order mb-28">
-                <div class="banner__items position__relative">
-                    <a class="banner__items--thumbnail" href="{{ route('shop') }}">
-                        <img class="banner__items--thumbnail__img" src="{{ asset($categories[0]->image) }}" alt="{{ $categories[0]->name }}">
-                        <div class="banner__items--content style2">
-                            <h3 class="banner__items--content__title style2">{{ strtoupper($categories[0]->name) }}</h3>
-                            <span class="banner__items--content__link style2">SHOP NOW</span>
-                        </div>
-                    </a>
-                </div>
+        <section class="banner__section banner__style2 section--padding color-scheme-2">
+            <div class="section__heading text-center mb-35">
+                <h2 class="section__heading--maintitle style2">Shop by Categories</h2>
             </div>
-            @endif
-
-            {{-- Right Column --}}
-            <div class="col-lg-8">
-                {{-- Top Row - 2 Horizontal Banners --}}
-                <div class="banner__style2--top__sidebar d-flex">
-                    @foreach([$categories->get(1), $categories->get(2)] as $cat)
-                        @if($cat)
-                        <div class="banner__items position__relative mr-30 mb-28">
-                            <a class="banner__items--thumbnail" href="{{ route('shop') }}">
-                                <img class="banner__items--thumbnail__img banner__img--max__height"  src="{{ asset($cat->image) }}" alt="{{ $cat->name }}" style="height: 300px;width:500px; object-fit: cover;">
-                                <div class="banner__items--content style2">
-                                    <h3 class="banner__items--content__title style2">{{ strtoupper($cat->name) }}</h3>
-                                    <span class="banner__items--content__link style2">SHOP NOW</span>
+            <div class="container-fluid">
+                <div class="row mb--n28 justify-content-center">
+                    @foreach($categories as $category)
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4">
+                            <a href="{{ route('shop', ['category' => $category->id]) }}" class="text-decoration-none">
+                                <div class="category-card text-center p-3 rounded-3 h-100 bg-white shadow-sm border">
+                                    <div class="category-card__img mb-3">
+                                        <img src="{{ asset($category->image) }}" 
+                                            alt="{{ $category->name }}" 
+                                            class="img-fluid rounded">
+                                    </div>
+                                    <h5 class="category-card__title mb-0 text-dark">{{ $category->name }}</h5>
                                 </div>
                             </a>
                         </div>
-                        @endif
-                    @endforeach
-                </div>
-
-                {{-- Bottom Row - 2 Grid Banners --}}
-                <div class="row row-cols-sm-2 row-cols-1">
-                    @foreach([$categories->get(3), $categories->get(4)] as $cat)
-                        @if($cat)
-                        <div class="col mb-28">
-                            <div class="banner__items position__relative">
-                                <a class="banner__items--thumbnail" href="{{ route('shop') }}">
-                                    <img class="banner__items--thumbnail__img banner__img--max__height" src="{{ asset($cat->image) }}" style="height: 300px;width:500px; object-fit: cover;" alt="{{ $cat->name }}">
-                                    <div class="banner__items--content style2 {{ $loop->last ? 'right' : '' }}">
-                                        <h3 class="banner__items--content__title style2">{{ strtoupper($cat->name) }}</h3>
-                                        <span class="banner__items--content__link style2">SHOP NOW</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        @endif
                     @endforeach
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
         <!-- Start product section -->
         <section class="product__section section--padding color-scheme-2 pt-0">
             <div class="container-fluid">
                 <div class="section__heading text-center mb-35">
-                    <h2 class="section__heading--maintitle style2">Summer Collection</h2>
+                    <h2 class="section__heading--maintitle style2">New Stocks</h2>
                 </div>
                 <div class="product__section--inner">
                     <div class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-2 mb--n30">
