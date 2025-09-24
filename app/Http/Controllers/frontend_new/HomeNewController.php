@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Blog;
 use App\Models\ProductRating;
+use App\Models\Category;
 
 
 class HomeNewController extends Controller
@@ -45,6 +46,8 @@ class HomeNewController extends Controller
         $data['blogs'] = $blogs;
         $data['featured'] = $featured;
         $data['products'] = $products;
+
+        $data['categories'] = Category::where('status', 1)->get();
         return view('frontend_new.index-1', $data);
     }
    public function login()
@@ -119,6 +122,27 @@ class HomeNewController extends Controller
 
     public function shop()
     {
+        // call products based on catgory id if passed in query string
+        $category_id = request()->query('category');
+        if ($category_id) {
+            $products = Product::where('category_id', $category_id)
+                ->where('status', 1)
+                ->with('images')
+                ->with(['variations' => function ($query) {
+                    $query->where('quantity', '>', 0);
+                }])
+                ->get();
+        } else {
+            $products = Product::latest()
+                ->where('status', 1)
+                ->with('images')
+                ->with(['variations' => function ($query) {
+                    $query->where('quantity', '>', 0);
+                }])
+                ->get();
+        }   
+
+        dd($products);
         return view('frontend_new.shop');
     }
 

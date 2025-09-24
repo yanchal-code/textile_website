@@ -71,7 +71,7 @@
             <div class="container-fluid">
                 <div class="header__topbar--inner d-flex align-items-center justify-content-between">
                     <div class="header__shipping">
-                        <p class="header__shipping--text text-white">Free shipping for orders over $59 !</p>
+                        <p class="header__shipping--text text-white">Free shipping for orders over 299 ₹</p>
                     </div>
                     <div class="language__currency d-none d-lg-block">
                         <ul class="d-flex align-items-center">
@@ -79,7 +79,7 @@
                             <img class="header__shipping--text__icon" src="{{ asset('frontend/img/icon/bus.png') }}" alt="bus-icon">
                             Track Your Order
                             </li>
-                            <li class="language__currency--list">
+                            <!-- <li class="language__currency--list">
                                 <a class="language__switcher text-white" href="#">
                                     <img class="language__switcher--icon__img" src="{{asset('frontend/img/icon/language-icon.png') }}" alt="currency">
                                     <span>English</span> 
@@ -89,13 +89,11 @@
                                 </a>
                                 <div class="dropdown__language">
                                     <ul>
-                                        <li class="language__items"><a class="language__text" href="#">France</a></li>
-                                        <li class="language__items"><a class="language__text" href="#">Russia</a></li>
-                                        <li class="language__items"><a class="language__text" href="#">Spanish</a></li>
+                                        <li class="language__items"><a class="language__text" href="#">English</a></li>
                                     </ul>
                                 </div>
-                            </li>
-                            <li class="language__currency--list">
+                            </li> -->
+                            <!-- <li class="language__currency--list">
                                 <a class="account__currency--link text-white" href="#">
                                     <img src="{{asset('frontend/img/icon/usd-icon.png') }}" alt="currency">
                                     <span>$ US Dollar</span> 
@@ -111,6 +109,9 @@
                                         <li class="currency__items"><a class="currency__text" href="#">GBP</a></li>
                                     </ul>
                                 </div>
+                            </li> -->
+                            <li class="header__shipping--text text-white">
+                                Customer Support
                             </li>
                         </ul>
                     </div>
