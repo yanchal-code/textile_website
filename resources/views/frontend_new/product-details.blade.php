@@ -131,7 +131,7 @@
                     <div class="col">
                         <div class="product__details--info">
                             <form action="#">
-                                <h2 class="product__details--info__title mb-15">Oversize Cotton Dress</h2>
+                                <h2 class="product__details--info__title mb-15"></h2>
                                 <div class="product__details--info__price mb-10">
                                     <span class="current__price">$110</span>
                                     <span class="price__divided"></span>

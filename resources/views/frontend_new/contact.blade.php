@@ -11,7 +11,7 @@
                         <div class="breadcrumb__content text-center">
                             <h1 class="breadcrumb__content--title text-white mb-25">Contact Us</h1>
                             <ul class="breadcrumb__content--menu d-flex justify-content-center">
-                                <li class="breadcrumb__content--menu__items"><a class="text-white" href="index.html">Home</a></li>
+                                <li class="breadcrumb__content--menu__items"><a class="text-white" href="/">Home</a></li>
                                 <li class="breadcrumb__content--menu__items"><span class="text-white">Contact Us</span></li>
                             </ul>
                         </div>
@@ -31,41 +31,45 @@
                     
                     <div class="contact__form">
                         <h3 class="contact__form--title mb-40">Contact Me</h3>
-                        <form class="contact__form--inner" action="#">
+                      <form id="contactFormFront" class="contact__form--inner" novalidate>
+                            @csrf
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <div class="contact__form--list mb-20">
-                                        <label class="contact__form--label" for="input1">First Name <span class="contact__form--label__star">*</span></label>
-                                        <input class="contact__form--input" name="firstname" id="input1" placeholder="Your First Name" type="text">
+                                        <label class="contact__form--label" for="input1">Name <span class="contact__form--label__star">*</span></label>
+                                        <input class="contact__form--input" name="name" id="input1" placeholder="Your Name" type="text" required>
                                     </div>
                                 </div>
+
                                 <div class="col-lg-6 col-md-6">
                                     <div class="contact__form--list mb-20">
-                                        <label class="contact__form--label" for="input2">Last Name <span class="contact__form--label__star">*</span></label>
-                                        <input class="contact__form--input" name="lastname" id="input2" placeholder="Your Last Name" type="text">
+                                        <label class="contact__form--label" for="input2">Email <span class="contact__form--label__star">*</span></label>
+                                        <input class="contact__form--input" name="email" id="input2" placeholder="Your Email" type="email" required>
                                     </div>
                                 </div>
+
                                 <div class="col-lg-6 col-md-6">
                                     <div class="contact__form--list mb-20">
-                                        <label class="contact__form--label" for="input3">Phone Number <span class="contact__form--label__star">*</span></label>
-                                        <input class="contact__form--input" name="number" id="input3" placeholder="Phone number" type="text">
+                                        <label class="contact__form--label" for="input3">Subject <span class="contact__form--label__star">*</span></label>
+                                        <input class="contact__form--input" name="subject" id="input3" placeholder="Subject" type="text" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="contact__form--list mb-20">
-                                        <label class="contact__form--label" for="input4">Email <span class="contact__form--label__star">*</span></label>
-                                        <input class="contact__form--input" name="email" id="input4" placeholder="Email" type="email">
-                                    </div>
-                                </div>
+
                                 <div class="col-12">
                                     <div class="contact__form--list mb-15">
-                                        <label class="contact__form--label" for="input5">Write Your Message <span class="contact__form--label__star">*</span></label>
-                                        <textarea class="contact__form--textarea" name="message" id="input5" placeholder="Write Your Message"></textarea>
+                                        <label class="contact__form--label" for="input4">Write Your Message <span class="contact__form--label__star">*</span></label>
+                                        <textarea class="contact__form--textarea" name="message" id="input4" placeholder="Write Your Message" required></textarea>
                                     </div>
                                 </div>
+
+                                <div class="col-12 text-center">
+                                    <div id="contactFormSpinner"></div>
+                                    <button class="contact__form--btn primary__btn" type="submit">Submit Now</button>
+                                </div>
                             </div>
-                            <button class="contact__form--btn primary__btn" type="submit">Submit Now</button>  
                         </form>
+
+
                     </div>
                     <div class="contact__info border-radius-5">
                         <div class="contact__info--items">
@@ -77,7 +81,7 @@
                                     </svg>
                                 </div>
                                 <div class="contact__info--content">
-                                    <p class="contact__info--content__desc text-white">Change the design through a range <br> <a href="tel:+01234-567890">+01234-567890</a> <a href="tel:++01234-5688765">+01234-5688765</a>   </p>
+                                    <p class="contact__info--content__desc text-white">Change the design through a range <br> <a href="tel:+01234-567890">+{{ config('settings.phone') }}</a></p>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +94,7 @@
                                     </svg>  
                                 </div>
                                 <div class="contact__info--content">
-                                    <p class="contact__info--content__desc text-white"> <a href="mailto:info@example.com">info@example.com</a> <br> <a href="mailto:info@example.com">info@example.com</a></p> 
+                                    <p class="contact__info--content__desc text-white"> <a href="mailto:info@example.com">{{ config('settings.email') }}</a></p> 
                                 </div>
                             </div>
                         </div>
@@ -103,9 +107,8 @@
                                     </svg> 
                                 </div>
                                 <div class="contact__info--content">
-                                    <p class="contact__info--content__desc text-white">  123 Stree New York City ,
-                                        United States Of America
-                                        NY 750065.</p> 
+                                    <p class="contact__info--content__desc text-white"> 
+                                        {{ config('settings.address') }}</p> 
                                 </div>
                             </div>
                         </div>
@@ -232,5 +235,71 @@
         <!-- End shipping section -->
 
     </main>
+@endsection
+@section('scripts')
+    <script>
+        $('#contactFormFront').submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            if (form[0].checkValidity() === true) {
+                var formData = new FormData(this);
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('contact.sendContactEmail') }}",
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    beforeSend: function() {
+                        $('#categoryCreatFormSpinner').html(
+                            '<span id="slugLoader"><span class="loader"></span> Loading...</span>'
+                        );
+                    },
+                    success: function(response) {
+                        $('#categoryCreatFormSpinner').html(
+                            '<button type="submit" class="btn ms-2 px-4 btnGradiant">Send Message</button>'
+                        )
+                        if (response.status === false) {
+                            var errorsHtml = '';
+                            var errors = response.errors;
+                            var count = 1;
+                            for (var key in errors) {
+                                if (errors.hasOwnProperty(key)) {
+                                    errorsHtml += '<p>' + count + '. ' + errors[key][0] + '</p>';
+                                }
+                                count = count + 1;
+                            }
+                            showNotification(errorsHtml, 'danger', 'html');
 
+                        } else if (response.status === true) {
+                            form[0].reset();
+                            form.removeClass('was-validated');
+                            window.location.reload();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $('#categoryCreatFormSpinner').html(
+                            '<button type="submit" class="btn ms-2 px-4 btnGradiant">Send Message</button>'
+                        );
+
+                        var errorMessage = "";
+                        try {
+                            var responseJson = JSON.parse(xhr.responseText);
+                            errorMessage = responseJson.message;
+                        } catch (e) {
+                            errorMessage = "An error occurred: " + xhr.status + " " + xhr.statusText;
+                        }
+
+                        showNotification(errorMessage, 'danger', 'html');
+                    }
+                });
+
+            } else {
+                form.addClass('was-validated');
+            }
+        });
+    </script>
 @endsection

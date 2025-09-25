@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>Suruchi - Fashion eCommerce HTML Template</title>
-  <meta name="description" content="Morden Bootstrap HTML5 Template">
+     <meta charset="utf-8">
+    <title>@yield('meta_title', 'Suruchi - Fashion eCommerce HTML Template')</title>
+    <meta name="description" content="@yield('meta_description', 'Morden Bootstrap HTML5 Template')">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/img/favicon.ico') }}">
     
@@ -95,7 +95,6 @@
                             </li> -->
                             <!-- <li class="language__currency--list">
                                 <a class="account__currency--link text-white" href="#">
-                                    <img src="{{asset('frontend/img/icon/usd-icon.png') }}" alt="currency">
                                     <span>$ US Dollar</span> 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="11.797" height="9.05" viewbox="0 0 9.797 6.05">
                                         <path d="M14.646,8.59,10.9,12.329,7.151,8.59,6,9.741l4.9,4.9,4.9-4.9Z" transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7"></path>
@@ -371,7 +370,6 @@
                             </li>
                             <li class="language__currency--list">
                                 <a class="offcanvas__account--currency__menu" href="#">
-                                    <img src="{{ asset('frontend/icon/usd-icon.png')}}" alt="currency">
                                     <span>$ US Dollar</span> 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="11.797" height="9.05" viewbox="0 0 9.797 6.05">
                                         <path d="M14.646,8.59,10.9,12.329,7.151,8.59,6,9.741l4.9,4.9,4.9-4.9Z" transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7"></path>

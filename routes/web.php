@@ -400,6 +400,8 @@ Route::controller(HomeNewController::class)->group(function () {
     Route::get('/wishlist',  'wishlist')->name('wishlist');
     Route::get('/compare',  'compare')->name('compare');
     Route::get('/contact',  'contact')->name('contact');
+    Route::post('/sendContactEmail', 'sendContactEmail')->name('contact.sendContactEmail');
+
     Route::get('/faq',  'faq')->name('faq');
     Route::get('/404', 'errorPage')->name('errorPage');
     Route::get('/about', 'about')->name('about');

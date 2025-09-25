@@ -531,8 +531,7 @@
                                                     <div class="product__items">
                                                         <div class="product__items--thumbnail">
                                                             <a class="product__items--link" href="{{ route('productDetails', $product->id) }}">
-                                                                    <img class="product__items--img product__primary--img" src="{{ asset($product->image) }}" alt="Product Image" width="200">
-                                                                <div class="product__badge">
+                                                                 <img src="{{ asset($product->defaultImage->image ?? 'uploads/products/no-image.jpg') }}" alt="Product Image" style=" width: 200px; height: 200px;object-fit: cover; border-radius: 8px;">                                                                <div class="product__badge">
                                                                     <span class="product__badge--items sale">Sale</span>
                                                                 </div>
                                                             </a>

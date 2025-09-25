@@ -1,6 +1,7 @@
 ﻿@extends('frontend_new.layouts.main')
 @section('content')
-
+@section('meta_title', 'About Us - Suruchi')
+@section('meta_description', 'About Us - Suruchi')
     <main class="main__content_wrapper">
         
         <!-- Start breadcrumb section -->
@@ -11,7 +12,7 @@
                         <div class="breadcrumb__content text-center">
                             <h1 class="breadcrumb__content--title text-white mb-25">About Us</h1>
                             <ul class="breadcrumb__content--menu d-flex justify-content-center">
-                                <li class="breadcrumb__content--menu__items"><a class="text-white" href="index.html">Home</a></li>
+                                <li class="breadcrumb__content--menu__items"><a class="text-white" href="/">Home</a></li>
                                 <li class="breadcrumb__content--menu__items"><span class="text-white">About Us</span></li>
                             </ul>
                         </div>
@@ -64,7 +65,7 @@
                         <div class="about__content">
                             <span class="about__content--subtitle text__secondary mb-20"> Why Choose us</span>
                             <h2 class="about__content--maintitle mb-25">We do not buy from the open market & traders.</h2>
-                            <p class="about__content--desc mb-20">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit illo, est repellendus are quia voluptate neque reiciendis ea placeat labore maiores cum, hic ducimus ad a dolorem soluta consectetur adipisci. Perspiciatis quas ab quibusdam is.</p>
+                            <p class="about__content--desc mb-20">  {!! $limitedContent !!} </p>
                             <p class="about__content--desc mb-25">Itaque accusantium eveniet a laboriosam dolorem? Magni suscipit est corrupti explicabo non perspiciatis, excepturi ut asperiores assumenda rerum? Provident ab corrupti sequi, voluptates repudiandae eius odit aut.</p>
                             <div class="about__author position__relative d-flex align-items-center">
                                 <div class="about__author--left">
