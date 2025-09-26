@@ -80,9 +80,13 @@ class HomeNewController extends Controller
             return view('frontend_new.privacy-policy');
         }
 
-        public function productDetails()
+       public function productDetails($id)
         {
-            return view('frontend_new.product-details');
+            $product = Product::with(['defaultImage', 'variations'])
+                ->where('status', 1)
+                ->findOrFail($id);
+
+            return view('frontend_new.product-details', compact('product'));
         }
 
         public function productGallery()

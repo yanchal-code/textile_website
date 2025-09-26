@@ -530,7 +530,7 @@
                                                 <div class="col mb-30">
                                                     <div class="product__items">
                                                         <div class="product__items--thumbnail">
-                                                            <a class="product__items--link" href="{{ route('productDetails', $product->id) }}">
+                                                             <a href="{{ route('productDetails', ['id' => $product->id]) }}">
                                                                  <img src="{{ asset($product->defaultImage->image ?? 'uploads/products/no-image.jpg') }}" alt="Product Image" style=" width: 200px; height: 200px;object-fit: cover; border-radius: 8px;">                                                                <div class="product__badge">
                                                                     <span class="product__badge--items sale">Sale</span>
                                                                 </div>
@@ -540,7 +540,7 @@
                                                         <div class="product__items--content">
                                                             <span class="product__items--content__subtitle">{{ $product->category->name }}</span>
                                                             <h3 class="product__items--content__title h4">
-                                                                <a href="{{ route('productDetails', $product->id) }}">{{ $product->name }}</a>
+                                                                <a href="{{ route('productDetails',['id' => $product->id]) }}">{{ $product->name }}</a>
                                                             </h3>
 
                                                             <div class="product__items--price">

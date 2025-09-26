@@ -156,9 +156,7 @@
                                         <li class="header__mega--menu__li">
                                             <span class="header__mega--subtitle">Column Two</span>
                                             <ul class="header__mega--sub__menu">
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('productDetails') }}">Product Details</a></li>
                                                 <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('productVideo') }}">Video Product</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('productDetails') }}">Variable Product</a></li>
                                                 <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('productLeftSidebar') }}">Product Left Sidebar</a></li>
                                                 <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('productGallery') }}">Product Gallery</a></li>
                                             </ul>
@@ -484,7 +482,6 @@
                         <a href="product-details.html"><img src="{{ asset('frontend/img/product/product2.png') }}" alt="prduct-img"></a>
                     </div>
                     <div class="minicart__text">
-                        <h3 class="minicart__subtitle h4"><a href="{{ route('productDetails') }}">Boxy Denim Jacket</a></h3>
                         <span class="color__variant"><b>Color:</b> Green</span>
                         <div class="minicart__price">
                             <span class="current__price">$115.00</span>

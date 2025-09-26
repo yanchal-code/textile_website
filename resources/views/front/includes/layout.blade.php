@@ -44,7 +44,6 @@
         </div>
 
         <nav class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-            <a href="{{ route('front.home') }}" class="navbar-brand ms-4 ms-lg-0">
                 <div class="fw-bold text-primary h1 m-0">
                     <img height="80" style="border-radius: 3px;" src="{{ asset(config('settings.logo')) }}"
                         alt="{{ config('settings.name') }}">
@@ -57,7 +56,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="{{ route('front.home') }}" class="nav-item nav-link active">Home</a>
                     <a href="{{ route('front.page', 'about-us') }}" class="nav-item nav-link">About Us</a>
                     <a href="{{ route('front.shop') }}" class="nav-item nav-link">Products</a>
                     <a href="{{ route('front.blogs') }}" class="nav-item nav-link">Blogs</a>

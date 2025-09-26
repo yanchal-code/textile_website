@@ -388,7 +388,7 @@ Route::controller(HomeNewController::class)->group(function () {
     Route::get('/portfolio',  'portfolio')->name('portfolio');
     Route::get('/print-design',  'printDesign')->name('printDesign');
     Route::get('/privacy-policy',  'privacyPolicy')->name('privacyPolicy');
-    Route::get('/product-details',  'productDetails')->name('productDetails');
+    Route::get('/product-details/{id}', 'productDetails')->name('productDetails');
     Route::get('/product-gallery',  'productGallery')->name('productGallery');
     Route::get('/product-left-sidebar', 'productLeftSidebar')->name('productLeftSidebar');
     Route::get('/product-video',  'productVideo')->name('productVideo');
