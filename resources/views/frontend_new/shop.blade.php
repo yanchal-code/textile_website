@@ -118,7 +118,6 @@
                           <div class="single__widget widget__bg">
                             <h2 class="widget__title h3">Categories</h2>
                             <ul class="widget__categories--menu">
-
                                 @foreach (categories() as $category)
                                     <li class="widget__categories--menu__list">
                                         <label class="widget__categories--menu__label d-flex align-items-center" 
