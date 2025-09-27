@@ -33,13 +33,13 @@
                         <div class="col mb-30">
                             <div class="blog__items">
                                 <div class="blog__thumbnail">
-                                    <a class="blog__thumbnail--link" href="{{ route('blogDetails',['id'=>$blog->id]) }}"><img class="blog__thumbnail--img" src="{{ $blog->image ? asset($blog->image) : asset('frontend/img/default-blog.png') }}"style="width: 370px; height: 250px; object-fit: cover;" alt="blog-img"></a>
+                                    <a class="blog__thumbnail--link" href="{{ route('front.blog.show', $blog->slug) }}"><img class="blog__thumbnail--img" src="{{ $blog->image ? asset($blog->image) : asset('frontend/img/default-blog.png') }}"style="width: 370px; height: 250px; object-fit: cover;" alt="blog-img"></a>
                                 </div>
                                 <div class="blog__content">
                                 <span class="blog__content--meta">{{ \Carbon\Carbon::parse($blog->created_at)->format('F d, Y') }}</span>
-                                    <h3 class="blog__content--title"><a href="{{ route('blogDetails',['id'=>$blog->id]) }}">{{ $blog->title ?? 'Title Here' }}
+                                    <h3 class="blog__content--title"><a href="{{ route('front.blog.show', $blog->slug) }}">{{ $blog->title ?? 'Title Here' }}
                                         </a></h3>
-                                        <a class="blog__content--btn style2 primary__btn" href="{{ route('blogDetails',['id'=>$blog->id])}}">
+                                        <a class="blog__content--btn style2 primary__btn" href="{{ route('front.blog.show', $blog->slug) }}">
                                     Read more
                                 </a>
                                 </div>

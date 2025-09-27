@@ -290,129 +290,93 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
-// Route::controller(FrontHomeController::class)->group(function () {
-//     Route::get('/',  'home')->name('front.home');
-//     Route::get('/blogs',  'blogs')->name('front.blogs');
-//     Route::get('/blogs/blog/{slug?}',  'blog')->name('front.blog.show');
+Route::controller(FrontHomeController::class)->group(function () {
+    Route::get('/',  'home')->name('frontend.home');
+    Route::get('/blogs',  'blogs')->name('front.blogs');
+    Route::get('/blogs/blog/{slug?}',  'blog')->name('front.blog.show');
 
-//     Route::get('page/{slug}', 'page')->name('front.page');
+    Route::get('page/{slug}', 'page')->name('front.page');
 
-//     Route::post('add-to-wishList', 'addToWishlist')->name('front.addToWishlist');
-//     Route::post('delete/wishList/item', 'removeFromWishlist')->name('wishlist.deleteItem');
+    Route::post('add-to-wishList', 'addToWishlist')->name('front.addToWishlist');
+    Route::post('delete/wishList/item', 'removeFromWishlist')->name('wishlist.deleteItem');
 
-//     Route::post('newsletter', 'newsletter')->name('front.newsletter');
-//     Route::post('sendContactEmail', 'sendContactEmail')->name('front.sendContactEmail');
+    Route::post('newsletter', 'newsletter')->name('front.newsletter');
+    Route::post('sendContactEmail', 'sendContactEmail')->name('front.sendContactEmail');
 
-//     Route::post('fetch-testimonials',  'fetchTestimonials')->name('front.testimonials');
-// });
+    Route::post('fetch-testimonials',  'fetchTestimonials')->name('front.testimonials');
+});
 
-// Route::controller(ShopController::class)->group(function () {
-//     Route::get('/shop/{categorySlug?}/{subCategorySlug?}/{leafCategorySlug?}',  'index')->name('front.shop');
+Route::controller(ShopController::class)->group(function () {
+    Route::get('/shop/{categorySlug?}/{subCategorySlug?}/{leafCategorySlug?}',  'index')->name('front.shop');
 
-//     Route::post('shop/product/quick/view', 'productQuickView')->name('product.quickView');
+    Route::post('shop/product/quick/view', 'productQuickView')->name('product.quickView');
 
-//     Route::get('product/{sku}', 'product')->name('front.product');
+    Route::get('product/{sku}', 'product')->name('front.product');
 
-//     Route::post('product/saveReview/{productId}', 'saveReview')->name('front.saveReview');
-//     Route::post('product/saveReview/order/item', 'saveReviewOrder')->name('front.saveReviewOrder');
+    Route::post('product/saveReview/{productId}', 'saveReview')->name('front.saveReview');
+    Route::post('product/saveReview/order/item', 'saveReviewOrder')->name('front.saveReviewOrder');
 
-//     Route::post('product/partial', 'partial')->name('front.product.partial');
-// });
+    Route::post('product/partial', 'partial')->name('front.product.partial');
+});
 
-// Route::controller(CartController::class)->group(function () {
-//     Route::get('cart', 'cart')->name('front.cart');
-//     Route::get('checkout', 'checkout')->name('front.checkout');
-//     // Route::get('thanks', 'thanks')->name('front.thanks');
-//     Route::get('cart/content', 'miniCartContent')->name('cart.mini');
-//     Route::post('add-to-cart', 'addToCart')->name('front.addTocart');
-//     Route::post('update-cart', 'updateCart')->name('cart.update');
-//     Route::post('reArrangeCart', 'reArrangeCart')->name('front.reArrangeCart');
-//     Route::post('delete-item', 'deleteItem')->name('cart.deleteItem');
-//     Route::post('apply-coupon', 'applyCoupon')->name('front.applyCoupon');
-//     // Route::post('getShipping', 'shipping')->name('front.getShipping');
-// });
-
-
-// Route::group(['prefix' => 'account'], function () {
-//     Route::group(['middleware' => 'guest'], function () {
-//         Route::controller(AuthController::class)->group(function () {
-//             Route::match(['get', 'post'], 'register', 'register')->name('account.register');
-//             Route::match(['get', 'post'], 'login', 'login')->name('account.login');
-//             Route::match(['get', 'post'], 'account/login', 'login')->name('login');
-
-//             Route::match(['get', 'post'], 'forgot', 'forgot')->name('account.forgot');
-//         });
-//     });
-
-//     Route::group(['middleware' => 'auth'], function () {
-//         Route::controller(AuthController::class)->group(function () {
-//             Route::get('profile', 'profile')->name('account.profile');
-//             Route::post('updateAddress', 'updateAddress')->name('account.updateAddress');
-//             Route::post('updateUserInfo', 'updateUserInfo')->name('account.updateUserInfo');
-//             Route::get('logout', 'logout')->name('account.logout');
-//             Route::get('my-orders', 'orders')->name('account.orders');
-//             Route::get('order-detail/{orderId}', 'orderDetail')->name('account.orderDetail');
-//             Route::get('my-wishlist', 'wishlist')->name('account.wishlist');
-
-//             Route::get('updateRegion/{country?}', 'updateRegion')->name('user.updateRegion');
-//         });
+Route::controller(CartController::class)->group(function () {
+    Route::get('cart', 'cart')->name('front.cart');
+    Route::get('checkout', 'checkout')->name('front.checkout');
+    // Route::get('thanks', 'thanks')->name('front.thanks');
+    Route::get('cart/content', 'miniCartContent')->name('cart.mini');
+    Route::post('add-to-cart', 'addToCart')->name('front.addTocart');
+    Route::post('update-cart', 'updateCart')->name('cart.update');
+    Route::post('reArrangeCart', 'reArrangeCart')->name('front.reArrangeCart');
+    Route::post('delete-item', 'deleteItem')->name('cart.deleteItem');
+    Route::post('apply-coupon', 'applyCoupon')->name('front.applyCoupon');
+    // Route::post('getShipping', 'shipping')->name('front.getShipping');
+});
 
 
-//         Route::controller(giftController::class)->group(function () {
+Route::group(['prefix' => 'account'], function () {
+    Route::group(['middleware' => 'guest'], function () {
+        Route::controller(AuthController::class)->group(function () {
+            Route::match(['get', 'post'], 'register', 'register')->name('account.register');
+            Route::match(['get', 'post'], 'login', 'login')->name('account.login');
+            Route::match(['get', 'post'], 'account/login', 'login')->name('login');
 
-//             Route::post('getGift', 'gift')->name('account.gift_info');
-//             Route::get('user/gift', 'show')->name('user.gift');
-//             Route::get('/gift-card/show', 'showGiftCard')->name('gift.show');
-//         });
-//     });
-// });
+            Route::match(['get', 'post'], 'forgot', 'forgot')->name('account.forgot');
+        });
+    });
+
+    Route::group(['middleware' => 'auth'], function () {
+        Route::controller(AuthController::class)->group(function () {
+            Route::get('profile', 'profile')->name('account.profile');
+            Route::post('updateAddress', 'updateAddress')->name('account.updateAddress');
+            Route::post('updateUserInfo', 'updateUserInfo')->name('account.updateUserInfo');
+            Route::get('logout', 'logout')->name('account.logout');
+            Route::get('my-orders', 'orders')->name('account.orders');
+            Route::get('order-detail/{orderId}', 'orderDetail')->name('account.orderDetail');
+            Route::get('my-wishlist', 'wishlist')->name('account.wishlist');
+
+            Route::get('updateRegion/{country?}', 'updateRegion')->name('user.updateRegion');
+        });
 
 
-// // CheckOut Routes
+        Route::controller(giftController::class)->group(function () {
 
-// Route::group(['middleware' => 'auth'], function () {
+            Route::post('getGift', 'gift')->name('account.gift_info');
+            Route::get('user/gift', 'show')->name('user.gift');
+            Route::get('/gift-card/show', 'showGiftCard')->name('gift.show');
+        });
+    });
+});
 
-//     Route::controller(CheckoutController::class)->group(function () {
-//         Route::post('/ProcessCheckout', 'processCheckout')->name('checkout.process');
-//         Route::get('/paypal-success', 'paypalSuccess')->name('paypal.success');
-//         Route::get('/paypal-cancel', 'paypalCancel')->name('paypal.cancel');
-//     });
-// });
+
+// CheckOut Routes
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::controller(CheckoutController::class)->group(function () {
+        Route::post('/ProcessCheckout', 'processCheckout')->name('checkout.process');
+        Route::get('/paypal-success', 'paypalSuccess')->name('paypal.success');
+        Route::get('/paypal-cancel', 'paypalCancel')->name('paypal.cancel');
+    });
+});
 
 Route::any('phonepe-response', [CheckoutController::class, 'phonePeCallback'])->name('phonepe.payment.callback');
-Route::controller(HomeNewController::class)->group(function () {
-    Route::get('/', 'index')->name('welcome');
-    Route::get('/login',  'login')->name('login');
-    Route::get('/my-account',  'myAccount')->name('myAccount');
-    Route::get('/my-account-2',  'myAccount2')->name('myAccount2');
-    Route::get('/portfolio',  'portfolio')->name('portfolio');
-    Route::get('/print-design',  'printDesign')->name('printDesign');
-    Route::get('/privacy-policy',  'privacyPolicy')->name('privacyPolicy');
-    Route::get('/product-details/{id}', 'productDetails')->name('productDetails');
-    Route::get('/product-gallery',  'productGallery')->name('productGallery');
-    Route::get('/product-left-sidebar', 'productLeftSidebar')->name('productLeftSidebar');
-    Route::get('/product-video',  'productVideo')->name('productVideo');
-    Route::get('/shop-grid-list',  'shopGridList')->name('shopGridList');
-    Route::get('/shop-grid',  'shopGrid')->name('shopGrid');
-    Route::get('/shop-list',  'shopList')->name('shopList');
-    Route::get('/shop-right-sidebar',  'shopRightSidebar')->name('shopRightSidebar');
-    Route::get('/shop',  'shop')->name('shop');
-    Route::get('/wishlist',  'wishlist')->name('wishlist');
-    Route::get('/compare',  'compare')->name('compare');
-    Route::get('/contact',  'contact')->name('contact');
-    Route::post('/sendContactEmail', 'sendContactEmail')->name('contact.sendContactEmail');
-
-    Route::get('/faq',  'faq')->name('faq');
-    Route::get('/404', 'errorPage')->name('errorPage');
-    Route::get('/about', 'about')->name('about');
-    Route::get('/blog-details/{id}', 'blogDetails')->name('blogDetails');
-    Route::get('/blog-left-sidebar', 'blogLeftSidebar')->name('blogLeftSidebar');
-    Route::get('/blog-right-sidebar', 'blogRightSidebar')->name('blogRightSidebar');
-    Route::get('/blog', 'blog')->name('blog');
-    Route::get('/checkout', 'checkout')->name('checkout');
-    Route::get('/checkout-2', 'checkout2')->name('checkout2');
-    Route::get('/checkout-3', 'checkout3')->name('checkout3');
-    Route::get('/checkout-4', 'checkout4')->name('checkout4');
-    Route::get('/cart', 'cart')->name('cart');
-    Route::get('/view/design/{id}', 'viewDesign')->name('view_design');
-});

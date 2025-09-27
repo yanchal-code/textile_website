@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Services\MailChimpClass;
 use App\Models\Blog;
 use App\Models\ProductRating;
+use App\Models\Category;
 
 class FrontHomeController extends Controller
 {
@@ -47,8 +48,8 @@ class FrontHomeController extends Controller
         $data['blogs'] = $blogs;
         $data['featured'] = $featured;
         $data['products'] = $products;
-
-        return view('front.index', $data);
+        $data['categories'] = Category::where('status', 1)->get();
+        return view('frontend_new.index', $data);
     }
 
     public function blogs()
@@ -56,7 +57,7 @@ class FrontHomeController extends Controller
         $blogs = Blog::latest()->paginate(12);
         $data['blogs'] = $blogs;
 
-        return view('front.blogs', $data);
+        return view('frontend_new.blog', $data);
     }
 
     public function blog($slug = null)
@@ -71,7 +72,7 @@ class FrontHomeController extends Controller
         $data['relatedBlogs'] = $relatedBlogs;
         $recentBlogs = Blog::latest()->inRandomOrder()->take(6)->get();
         $data['recentBlogs'] = $recentBlogs;
-        return view('front.blog', $data);
+        return view('frontend_new.blog-details', $data);
     }
 
     public function page($slug)
@@ -81,7 +82,7 @@ class FrontHomeController extends Controller
             abort(404);
         }
         $data['page'] = $page;
-        return view('front.page', $data);
+        return view('frontend_new.page', $data);
     }
     public function addToWishlist(Request $request)
     {

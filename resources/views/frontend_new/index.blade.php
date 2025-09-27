@@ -59,7 +59,7 @@
                 <div class="row mb--n28 justify-content-center">
                     @foreach($categories as $category)
                         <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4">
-                            <a href="{{ route('shop', ['category' => $category->id]) }}" class="text-decoration-none">
+                            <a href="{{ route('front.shop', ['category' => $category->slug]) }}" class="text-decoration-none">
                                 <div class="category-card text-center p-3 rounded-3 h-100 bg-white shadow-sm border">
                                     <div class="category-card__img mb-3">
                                         <img src="{{ asset($category->image) }}" 
@@ -1541,7 +1541,7 @@
                         <div class="swiper-slide">
                             <div class="blog__items">
                                 <div class="blog__thumbnail">
-                                    <a class="blog__thumbnail--link" href="{{ route('blogDetails',['id'=>$blog->id]) }}">
+                                    <a class="blog__thumbnail--link" href="{{ route('front.blog.show', $blog->slug) }}">
                                     <img 
                                         class="img-fluid blog-img" 
                                         src="{{ $blog->image ? asset($blog->image) : asset('frontend/img/default-blog.png') }}" 
@@ -1552,11 +1552,11 @@
                                 <div class="blog__content style2">
                                     <span class="blog__content--meta">{{ \Carbon\Carbon::parse($blog->created_at)->format('F d, Y') }}</span>
                                     <h3 class="blog__content--title style2">
-                                        <a href="{{ route('blogDetails',['id'=>$blog->id]) }}">
+                                        <a href="{{ route('front.blog.show', $blog->slug) }}">
                                             {{ $blog->title }}
                                         </a>
                                     </h3>
-                                    <a class="blog__content--btn style2 primary__btn" href="{{ route('blogDetails',['id'=>$blog->id])}}">
+                                    <a class="blog__content--btn style2 primary__btn" href="{{ route('front.blog.show', $blog->slug) }}">
                                         Read more
                                     </a>
                                 </div>

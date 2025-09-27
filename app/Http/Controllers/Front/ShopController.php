@@ -137,7 +137,7 @@ class ShopController extends Controller
         $data['sortBy'] = $sortBy;
 
 
-        return view('front.shop', $data);
+        return view('frontend_new.shop', $data);
     }
 
     public function productQuickView(Request $request)

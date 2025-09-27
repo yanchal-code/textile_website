@@ -127,17 +127,17 @@
                         </a>
                     </div>
                     <div class="main__logo">
-                        <h1 class="main__logo--title"><a class="main__logo--link" href="{{ route('welcome') }}"><img class="main__logo--img" src="{{asset('frontend/img/logo/nav-log2.png')}}" alt="logo-img"></a></h1>
+                        <h1 class="main__logo--title"><a class="main__logo--link" href="{{ route('frontend.home') }}"><img class="main__logo--img" src="{{asset('frontend/img/logo/nav-log2.png')}}" alt="logo-img"></a></h1>
                     </div>
                     <div class="header__menu d-none d-lg-block">
                         <nav class="header__menu--navigation">
                             <ul class="d-flex">
                                <li class="header__menu--items">
-                                   <a class="header__menu--link" href="{{ route('welcome') }}">Home</a>
+                                   <a class="header__menu--link" href="{{ route('frontend.home') }}">Home</a>
                                    </li>
 
-                                <li class="header__menu--items mega__menu--items">
-                                    <a class="header__menu--link" href="{{ route('shop') }}">Shop 
+                                <!-- <li class="header__menu--items mega__menu--items">
+                                    <a class="header__menu--link" href="">Shop 
                                         <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="7.41" viewbox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z" transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7"></path>
                                         </svg>
@@ -146,73 +146,70 @@
                                         <li class="header__mega--menu__li">
                                             <span class="header__mega--subtitle">Column One</span>
                                             <ul class="header__mega--sub__menu">
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('shop') }}">Shop Left Sidebar</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('shopRightSidebar') }}">Shop Right Sidebar</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('shopGrid') }}">Shop Grid</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('shopGridList') }}">Shop Grid List</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('shopList') }}">Shop List</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Shop Left Sidebar</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Shop Right Sidebar</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Shop Grid</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Shop Grid List</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Shop List</a></li>
                                             </ul>
                                         </li>
                                         <li class="header__mega--menu__li">
                                             <span class="header__mega--subtitle">Column Two</span>
                                             <ul class="header__mega--sub__menu">
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('productVideo') }}">Video Product</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('productLeftSidebar') }}">Product Left Sidebar</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('productGallery') }}">Product Gallery</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Video Product</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Product Left Sidebar</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Product Gallery</a></li>
                                             </ul>
                                         </li>
                                         <li class="header__mega--menu__li">
                                             <span class="header__mega--subtitle">Column Three</span>
                                             <ul class="header__mega--sub__menu">
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('myAccount') }}">My Account</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('myAccount2') }}">My Account 2</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('errorPage') }}">404 Page</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('login') }}">Login Page</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('faq') }}">Faq Page</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">My Account</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">My Account 2</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">404 Page</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Login Page</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Faq Page</a></li>
                                             </ul>
                                         </li>
                                         <li class="header__mega--menu__li">
                                             <span class="header__mega--subtitle">Column Four</span>
                                             <ul class="header__mega--sub__menu">
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('compare') }}">Compare Pages</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('checkout') }}">Checkout page</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('checkout2') }}">Checkout Style 2</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('checkout3') }}">Checkout Style 3</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{{ route('checkout4') }}">Checkout Style 4</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Compare Pages</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Checkout page</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Checkout Style 2</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Checkout Style 3</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="">Checkout Style 4</a></li>
                                             </ul>
                                         </li>
                                     </ul>
-                                </li>
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href="{{ route('about') }}">About Us </a>  
-                                </li>
-                                <li class="header__menu--items">
-                                  <a  class="header__menu--link" href="{{ route('blog') }}" class="header__sub--menu__link">Blogs</a>
-                                </li>
-                                <!-- <li class="header__menu--items d-none d-xl-block">
-                                    <a class="header__menu--link" href="{{ route('shop') }}">Categories </a>  
                                 </li> -->
-                                <li class="header__menu--items d-none d-xl-block">
-                                    <a class="header__menu--link" href="{{ route('productGallery') }}">Products </a>  
+                                <li class="header__menu--items">
+                                    <a class="header__menu--link" href="{{ route('front.page', 'about-us') }}">About Us </a>  
                                 </li>
                                 <li class="header__menu--items">
+                                   <a class="header__menu--link" href="{{ route('front.shop') }}">Products</a>
+                                   </li>
+                                <li class="header__menu--items">
+                                  <a  class="header__menu--link" href="{{route('front.blogs')}}" class="header__sub--menu__link">Blogs</a>
+                                </li>
+                            
+                                <!-- <li class="header__menu--items">
                                     <a class="header__menu--link" href="#">Pages 
                                         <svg class="menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="7.41" viewbox="0 0 12 7.41">
                                             <path d="M16.59,8.59,12,13.17,7.41,8.59,6,10l6,6,6-6Z" transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7"></path>
                                         </svg>
                                     </a>
                                     <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a href="{{ route('about') }}" class="header__sub--menu__link">About Us</a></li>
-                                        <li class="header__sub--menu__items"><a href="{{ route('contact') }}" class="header__sub--menu__link">Contact Us</a></li>
-                                        <li class="header__sub--menu__items"><a href="{{ route('cart') }}" class="header__sub--menu__link">Cart Page</a></li>
-                                        <li class="header__sub--menu__items"><a href="{{ route('portfolio') }}" class="header__sub--menu__link">Portfolio Page</a></li>
-                                        <li class="header__sub--menu__items"><a href="{{ route('wishlist') }}" class="header__sub--menu__link">Wishlist Page</a></li>
-                                        <li class="header__sub--menu__items"><a href="{{ route('login') }}" class="header__sub--menu__link">Login Page</a></li>
-                                        <li class="header__sub--menu__items"><a href="{{ route('errorPage') }}" class="header__sub--menu__link">Error Page</a></li>
+                                        <li class="header__sub--menu__items"><a href="{{ route('front.page', 'contact-us') }}" class="header__sub--menu__link">Contact Us</a></li>
+                                        <li class="header__sub--menu__items"><a href="" class="header__sub--menu__link">Cart Page</a></li>
+                                        <li class="header__sub--menu__items"><a href="" class="header__sub--menu__link">Portfolio Page</a></li>
+                                        <li class="header__sub--menu__items"><a href="" class="header__sub--menu__link">Wishlist Page</a></li>
+                                        <li class="header__sub--menu__items"><a href="" class="header__sub--menu__link">Login Page</a></li>
+                                        <li class="header__sub--menu__items"><a href="" class="header__sub--menu__link">Error Page</a></li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <li class="header__menu--items">
-                                    <a class="header__menu--link" href="{{ route('contact') }}">Contact </a>  
+                                    <a class="header__menu--link" href="{{ route('front.page', 'contact-us') }}">Contact Us</a>  
                                 </li>
                             </ul>
                         </nav>
@@ -226,13 +223,13 @@
                                 </a>
                             </li>
                             <li class="header__account--items header__account2--items">
-                                <a class="header__account--btn" href="{{ route('myAccount') }}">
+                                <a class="header__account--btn" href="">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="26.51" height="23.443" viewbox="0 0 512 512"><path d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path></svg> 
                                     <span class="visually-hidden">Account</span>  
                                 </a>
                             </li>
                             <li class="header__account--items header__account2--items d-none d-lg-block">
-                                <a class="header__account--btn" href="{{ route('wishlist') }}">
+                                <a class="header__account--btn" href="">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="28.51" height="23.443" viewbox="0 0 512 512"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path></svg>
                                     <span class="items__count  wishlist style2">02</span> 
                                 </a>
@@ -258,10 +255,10 @@
         </div>
 
         <!-- Start Offcanvas header menu -->
-        <div class="offcanvas__header color-scheme-2">
+        <!-- <div class="offcanvas__header color-scheme-2">
             <div class="offcanvas__inner">
                 <div class="offcanvas__logo">
-                    <a class="offcanvas__logo_link" href="{{ route('welcome') }}">
+                    <a class="offcanvas__logo_link" href="{{ route('frontend.home') }}">
                         <img src="{{asset('frontend/img/logo/nav-log2.png') }}" alt="Grocee Logo" width="158" height="36">
                     </a>
                     <button class="offcanvas__close--btn" data-offcanvas="">close</button>
@@ -269,7 +266,7 @@
                 <nav class="offcanvas__menu">
                     <ul class="offcanvas__menu_ul">
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="{{ route('welcome') }}">Home</a>
+                            <a class="offcanvas__menu_item" href="{{ route('frontend.home') }}">Home</a>
                         </li>
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="#">Shop</a>
@@ -387,10 +384,10 @@
                 </nav>
             </div>
         </div>
-        <!-- End Offcanvas header menu -->
+        End Offcanvas header menu 
 
-        <!-- Start Offcanvas stikcy toolbar -->
-        <div class="offcanvas__stikcy--toolbar color-scheme-2">
+        Start Offcanvas stikcy toolbar -->
+        <!-- <div class="offcanvas__stikcy--toolbar color-scheme-2">
             <ul class="d-flex justify-content-between">
                 <li class="offcanvas__stikcy--toolbar__list">
                     <a class="offcanvas__stikcy--toolbar__btn" href="index.html">
@@ -439,7 +436,7 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </div> --> 
         <!-- End Offcanvas stikcy toolbar -->
 
         <!-- Start offCanvas minicart -->
@@ -515,8 +512,8 @@
                 <label class="minicart__conditions--label" for="accept">I agree with the <a class="minicart__conditions--link" href="privacy-policy.html">Privacy and Policy</a></label>
             </div>
             <div class="minicart__button d-flex justify-content-center">
-                <a class="primary__btn minicart__button--link" href="{{ route('cart') }}">View cart</a>
-                <a class="primary__btn minicart__button--link" href="{{ route('checkout') }}">Checkout</a>
+                <a class="primary__btn minicart__button--link" href="">View cart</a>
+                <a class="primary__btn minicart__button--link" href="">Checkout</a>
             </div>
         </div>
         <!-- End offCanvas minicart -->

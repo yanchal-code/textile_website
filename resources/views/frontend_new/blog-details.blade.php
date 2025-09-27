@@ -38,7 +38,7 @@
                                         </p>
                                 </div>
                                 <div class="blog__thumbnail mb-30">
-                                    <img class="blog__thumbnail--img border-radius-10" src="{{ $blog->image ? asset($blog->image) : asset('frontend/img/default-blog.png') }}" alt="blog-img">
+                                    <img class="blog__thumbnail--img border-radius-10" src="{{ asset($blog->image) }}" alt="{{ $blog->alt_image_text ?? $blog->title }}">
                                 </div>
                                 <div class="blog__details--content">
                                     <h3 class="blog__details--content__title mb-20">What is Lorem Ipsum?</h3>
@@ -224,7 +224,7 @@
                                          @foreach ($recentBlogs as $recent)
                                    <li class="widget__categories--menu__list">
                                     <div>
-                                        <a href="{{ route('blogDetails',['id'=>$recent->id]) }}" class="text-dark text-decoration-none">
+                                        <a href="{{ route('front.blog.show', $blog->slug) }}" class="text-dark text-decoration-none">
                                             {{ Str::limit($recent->title, 60) }}
                                         </a>
                                         <br>

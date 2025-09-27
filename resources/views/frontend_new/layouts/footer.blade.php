@@ -51,25 +51,42 @@
                     </div>
                 </div>
                 <div class="footer__widget--menu__wrapper d-flex footer__widget--width">
-                    <div class="footer__widget">
-                        <h2 class="footer__widget--title text-ofwhite h3">My Account 
-                            <button class="footer__widget--button" aria-label="footer widget button">
-                                <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394" viewbox="0 0 10.355 6.394">
-                                    <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"></path>
+                    <div class="footer__widget text-white">
+                        <h2 class="footer__widget--title h3 text-white d-flex justify-content-between align-items-center">
+                            My Account
+                            <button class="footer__widget--button border-0 bg-transparent text-white" aria-label="footer widget button">
+                                <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12.355"
+                                    height="8.394" viewBox="0 0 10.355 6.394" fill="currentColor">
+                                    <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z"
+                                        transform="translate(-6 -8.59)"></path>
                                 </svg>
                             </button>
                         </h2>
-                        <ul class="footer__widget--menu footer__widget--inner">
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="my-account.html">My Account</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="cart.html">Shopping Cart</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="login.html">Login</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="login.html">Register</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="checkout.html">Checkout</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="wishlist.html">Wishlist</a></li>
+
+                        <ul class="footer__widget--menu footer__widget--inner list-unstyled mt-3">
+                        <P> <li class="footer__widget--menu__list mb-2 d-flex align-items-start">
+                                <i class="bi bi-geo-alt-fill me-2 text-white fs-5"></i>
+                                <span>{{ config('settings.address') }}</span>
+                            </li></p>
+
+                        <p>  <li class="footer__widget--menu__list mb-2 d-flex align-items-start">
+                                <i class="bi bi-telephone-fill me-2 text-white fs-5"></i>
+                                <a href="tel:{{ config('settings.phone') }}" class="text-white text-decoration-none">
+                                    {{ config('settings.phone') }}
+                                </a>
+                            </li></p>
+
+                        <p> <li class="footer__widget--menu__list d-flex align-items-start">
+                                <i class="bi bi-envelope-fill me-2 text-white fs-5"></i>
+                                <a href="mailto:{{ config('settings.email') }}" class="text-white text-decoration-none">
+                                    {{ config('settings.email') }}
+                                </a>
+                            </li></p>
                         </ul>
                     </div>
+
                     <div class="footer__widget">
-                        <h2 class="footer__widget--title text-ofwhite h3">Categories 
+                        <h2 class="footer__widget--title text-ofwhite h3">Quick Links
                             <button class="footer__widget--button" aria-label="footer widget button">
                                 <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394" viewbox="0 0 10.355 6.394">
                                     <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"></path>
@@ -77,12 +94,12 @@
                             </button>
                         </h2>
                         <ul class="footer__widget--menu footer__widget--inner">
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="about.html">About Us</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="contact.html">Contact Us</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="portfolio.html">Portfolio</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="privacy-policy.html">Privacy Policy</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="compare.html">Compare</a></li>
-                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="faq.html">Frequently</a></li>
+                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="{{ route('front.page', 'about-us') }}">About Us</a></li>
+                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="{{ route('front.page', 'contact-us') }}">Contact Us</a></li>
+                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="{{ route('front.page', 'about-us') }}">Our Services</a></li>
+                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="{{ route('front.page', 'privacy-policy') }}">Privacy Policy</a></li>
+                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="{{ route('front.page', 'terms-conditions') }}">Terms & Condition</a></li>
+                            <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="{{ route('front.page', 'contact-us') }}">Support</a></li>
                         </ul>
                     </div>
                 </div>
@@ -433,7 +450,8 @@
 
     <!-- Scroll top bar -->
     <button class="color-scheme-2" id="scroll__top"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 244l144-144 144 144M256 120v292"></path></svg></button>
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
  <!-- All Script JS Plugins here  -->
 <script src="{{ asset('frontend/js/vendor/popper.js') }}" defer></script>
 <script src="{{ asset('frontend/js/vendor/bootstrap.min.js') }}" defer></script>
