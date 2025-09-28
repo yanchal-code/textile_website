@@ -409,7 +409,7 @@
                                                 <div class="product__items">
                                                     <div class="product__items--thumbnail" style="height:280px; overflow:hidden; display:flex; align-items:center; justify-content:center;">
                                                         
-                                                        <a class="product__items--link" href="">
+                                                        <a class="product__items--link" href="{{ route('front.product', $product->slug) }}">
                                                             <img 
                                                                 class="product__items--img product__primary--img" 
                                                                 src="{{ asset($product->defaultImage->image ?? $product->images->first()->image) }}" 
@@ -439,7 +439,7 @@
                                                             {{ $product->category->name ?? 'Category' }}
                                                         </span>
                                                         <h3 class="product__items--content__title h4">
-                                                            <a href="">
+                                                            <a href="{{ route('front.product', $product->slug) }}">
                                                                 {{ $product->name }}
                                                             </a>
                                                         </h3>

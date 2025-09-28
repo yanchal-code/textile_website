@@ -246,7 +246,7 @@ class ShopController extends Controller
             ->shuffle()
             ->take(8);
 
-        return view('front.product', $data);
+        return view('frontend_new.product-details', $data);
     }
 
     public function saveReview($productId, Request $request)
