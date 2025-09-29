@@ -467,19 +467,13 @@
 
                                                 {{-- Action buttons --}}
                                                 <ul class="product__items--action d-flex">
-                                                    <li class="product__items--action__list">
-                                                        <button data-bs-sku="{{ $product->sku }}" value="{{ $product->sku }}"
-                                                                class="product__items--action__btn quick-add">
-                                                            <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"
-                                                                width="22.51" height="20.443" viewBox="0 0 14.706 13.534">
-                                                                <path
-                                                                    d="M4.738,472.271h7.814a.434.434,0,0,0,.414-.328l1.723-6.316a.466.466,0,0,0-.071-.4.424.424,0,0,0-.344-.179H3.745L3.437,463.6a.435.435,0,0,0-.421-.353H.431a.451.451,0,0,0,0,.9h2.24c.054.257,1.474,6.946,1.555,7.33a1.36,1.36,0,0,0-.779,1.242,1.326,1.326,0,0,0,1.293,1.354h7.812a.452.452,0,0,0,0-.9H4.74a.451.451,0,0,1,0-.9Zm8.966-6.317-1.477,5.414H5.085l-1.149-5.414Z"
-                                                                    transform="translate(0 -463.248)" fill="currentColor"></path>
-                                                            </svg>
-                                                            <span class="add__to--cart__text">+ Add to cart</span>
-                                                        </button>
-                                                    </li>
-
+                                                  <li class="product__items--action__list">
+                                                    <button data-bs-sku="{{ $product->sku }}" value="{{ $product->sku }}"
+                                                        class="product__items--action__btn quick-add">
+                                                        
+                                                        <span class="add__to--cart__text">+ Add to cart</span>
+                                                    </button>
+                                                </li>
                                                     <li class="product__items--action__list">
                                                         <a class="product__items--action__btn" href="wishlist.html">
                                                             ❤️

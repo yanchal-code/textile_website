@@ -90,7 +90,7 @@ class AuthController extends Controller
         }
 
         $data['selectedForm'] = 'login';
-        return view('front.account.login');
+        return view('frontend_new.account.login');
     }
     public function register(Request $request)
     {
@@ -139,7 +139,7 @@ class AuthController extends Controller
             }
         }
 
-        return view('front.account.register');
+        return view('frontend_new.account.register');
     }
 
     public function forgot(Request $request)

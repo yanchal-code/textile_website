@@ -22,7 +22,7 @@ class CartController extends Controller
         $cartContent = Cart::content();
 
         $data['cartContent'] = $cartContent;
-        return view('front.cart', $data);
+        return view('frontend_new.cart', $data);
     }
 
     public function addToCart(Request $request)

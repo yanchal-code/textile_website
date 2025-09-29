@@ -1,7 +1,6 @@
 ﻿@extends('frontend_new.layouts.main')
 @section('content')
     <main class="main__content_wrapper">
-        
         <!-- Start breadcrumb section -->
         <section class="breadcrumb__section breadcrumb__bg">
             <div class="container">
@@ -10,7 +9,7 @@
                         <div class="breadcrumb__content text-center">
                             <h1 class="breadcrumb__content--title text-white mb-25">Shopping Cart</h1>
                             <ul class="breadcrumb__content--menu d-flex justify-content-center">
-                                <li class="breadcrumb__content--menu__items"><a class="text-white" href="index.html">Home</a></li>
+                                <li class="breadcrumb__content--menu__items"><a class="text-white" href="/">Home</a></li>
                                 <li class="breadcrumb__content--menu__items"><span class="text-white">Shopping Cart</span></li>
                             </ul>
                         </div>
@@ -19,209 +18,245 @@
             </div>
         </section>
         <!-- End breadcrumb section -->
-
         <!-- cart section start -->
-        <section class="cart__section section--padding">
-            <div class="container-fluid">
-                <div class="cart__section--inner">
-                    <form action="#"> 
-                        <h2 class="cart__title mb-40">Shopping Cart</h2>
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="cart__table">
-                                    <table class="cart__table--inner">
-                                        <thead class="cart__table--header">
-                                            <tr class="cart__table--header__items">
-                                                <th class="cart__table--header__list">Product</th>
-                                                <th class="cart__table--header__list">Price</th>
-                                                <th class="cart__table--header__list">Quantity</th>
-                                                <th class="cart__table--header__list">Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="cart__table--body">
-                                            <tr class="cart__table--body__items">
-                                                <td class="cart__table--body__list">
-                                                    <div class="cart__product d-flex align-items-center">
-                                                        <button class="cart__remove--btn" aria-label="search button" type="button">
-                                                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"></path></svg>
-                                                        </button>
-                                                        <div class="cart__thumbnail">
-                                                            <a href="product-details.html"><img class="border-radius-5" src="{{asset('frontend/img/product/product1.png')}}" alt="cart-product"></a>
+            <section class="cart__section section--padding">
+                <div class="container-fluid">
+                    <div class="cart__section--inner">
+                            <h2 class="cart__title mb-40">Shopping Cart</h2>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="cart__table">
+                                        <table class="cart__table--inner">
+                                            <thead class="cart__table--header">
+                                                <tr class="cart__table--header__items">
+                                                    <th class="cart__table--header__list">Product</th>
+                                                    <th class="cart__table--header__list">Price</th>
+                                                    <th class="cart__table--header__list">Quantity</th>
+                                                    <th class="cart__table--header__list">Total</th>
+                                                </tr>
+                                            </thead>
+                                        <tbody>
+                                            @foreach ($cartContent as $item)
+                                                <tr class="cart__table--body__items remove_item_row">
+                                                    <td class="cart__table--body__list">
+                                                        <div class="cart__product d-flex align-items-center">
+                                                            <button class="cart__remove--btn cart-remove-item" data-id="{{ $item->rowId }}" type="button" aria-label="Remove">
+                                                                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px" height="16px">
+                                                                    <path d="M4.707 3.293L3.293 4.707 10.586 12 3.293 19.293l1.414 1.414L12 13.414l7.293 7.293 1.414-1.414L13.414 12l7.293-7.293-1.414-1.414L12 10.586 4.707 3.293z"/>
+                                                                </svg>
+                                                            </button>
+                                                            <div class="cart__thumbnail">
+                                                                <a href="{{ route('front.product', $item->id ?? '') }}">
+                                                                    <img class="border-radius-5" src="{{ $item->options->product_image != '' ? asset($item->options->product_image) : asset('admin-assets/img/default-150x150.png') }}" alt="cart-product">
+                                                                </a>
+                                                            </div>
+                                                            <div class="cart__content">
+                                                                <h4 class="cart__content--title">
+                                                                    <a href="{{ route('front.product', $item->id ?? '') }}">{{ $item->name }}</a>
+                                                                </h4>
+
+                                                                {{-- Show Variants --}}
+                                                                @if ($item->options->color)
+                                                                    <span class="cart__content--variant">COLOR: {{ $item->options->color }}</span>
+                                                                @endif
+
+                                                                @if ($item->options->weight)
+                                                                    <span class="cart__content--variant">WEIGHT: {{ $item->options->weight }}</span>
+                                                                @endif
+
+                                                                @if ($item->options->ring_size)
+                                                                    <span class="cart__content--variant">SIZE: {{ $item->options->ring_size }}</span>
+                                                                @endif
+                                                            </div>
                                                         </div>
-                                                        <div class="cart__content">
-                                                            <h4 class="cart__content--title"><a href="product-details.html">Fresh-whole-fish</a></h4>
-                                                            <span class="cart__content--variant">COLOR: Blue</span>
-                                                            <span class="cart__content--variant">WEIGHT: 2 Kg</span>
+                                                    </td>
+
+                                                    {{-- Unit Price --}}
+                                                    <td class="cart__table--body__list">
+                                                        <span class="cart__price">{!! config('settings.currency_symbol') !!}{{ $item->price }}</span>
+                                                    </td>
+
+                                                    {{-- Quantity --}}
+                                                    <td class="cart__table--body__list">
+                                                        <div class="quantity__box ">
+                                                            <button type="button" class="quantity__value decrease cart-minus-btn" data-id="{{ $item->rowId }}">−</button>
+                                                            <label>
+                                                                <input type="number" class="quantity__number" value="{{ $item->qty }}" readonly>
+                                                            </label>
+                                                            <button type="button" class="quantity__value increase cart-plus-btn" data-id="{{ $item->rowId }}">+</button>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <span class="cart__price">£65.00</span>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <div class="quantity__box">
-                                                        <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                        <label>
-                                                            <input type="number" class="quantity__number quickview__value--number" value="1" data-counter/="">
-                                                        </label>
-                                                        <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                    </div>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <span class="cart__price end">£130.00</span>
-                                                </td>
-                                            </tr>
-                                            <tr class="cart__table--body__items">
-                                                <td class="cart__table--body__list">
-                                                    <div class="cart__product d-flex align-items-center">
-                                                        <button class="cart__remove--btn" aria-label="search button" type="button">
-                                                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"></path></svg>
-                                                        </button>
-                                                        <div class="cart__thumbnail">
-                                                            <a href="product-details.html"><img class="border-radius-5" src="{{asset('frontend/img/product/product2.png')}}" alt="cart-product"></a>
-                                                        </div>
-                                                        <div class="cart__content">
-                                                            <h4 class="cart__content--title"><a href="product-details.html">Vegetable-healthy</a></h4>
-                                                            <span class="cart__content--variant">COLOR: Blue</span>
-                                                            <span class="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <span class="cart__price">£65.00</span>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <div class="quantity__box">
-                                                        <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                        <label>
-                                                            <input type="number" class="quantity__number quickview__value--number" value="1" data-counter/="">
-                                                        </label>
-                                                        <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                    </div>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <span class="cart__price end">£130.00</span>
-                                                </td>
-                                            </tr>
-                                            <tr class="cart__table--body__items">
-                                                <td class="cart__table--body__list">
-                                                    <div class="cart__product d-flex align-items-center">
-                                                        <button class="cart__remove--btn" aria-label="search button" type="button">
-                                                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"></path></svg>
-                                                        </button>
-                                                        <div class="cart__thumbnail">
-                                                            <a href="product-details.html"><img class="border-radius-5" src="{{asset('frontend/img/product/product3.png')}}" alt="cart-product"></a>
-                                                        </div>
-                                                        <div class="cart__content">
-                                                            <h4 class="cart__content--title"><a href="product-details.html">Raw-onions-surface</a></h4>
-                                                            <span class="cart__content--variant">COLOR: Blue</span>
-                                                            <span class="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <span class="cart__price">£65.00</span>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <div class="quantity__box">
-                                                        <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                        <label>
-                                                            <input type="number" class="quantity__number quickview__value--number" value="1" data-counter/="">
-                                                        </label>
-                                                        <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                    </div>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <span class="cart__price end">£130.00</span>
-                                                </td>
-                                            </tr>
-                                            <tr class="cart__table--body__items">
-                                                <td class="cart__table--body__list">
-                                                    <div class="cart__product d-flex align-items-center">
-                                                        <button class="cart__remove--btn" aria-label="search button" type="button">
-                                                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"></path></svg>
-                                                        </button>
-                                                        <div class="cart__thumbnail">
-                                                            <a href="product-details.html"><img class="border-radius-5" src="{{asset('frontend/img/product/product4.png')}}" alt="cart-product"></a>
-                                                        </div>
-                                                        <div class="cart__content">
-                                                            <h4 class="cart__content--title"><a href="product-details.html">Oversize Cotton Dress</a></h4>
-                                                            <span class="cart__content--variant">COLOR: Blue</span>
-                                                            <span class="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <span class="cart__price">£65.00</span>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <div class="quantity__box">
-                                                        <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                        <label>
-                                                            <input type="number" class="quantity__number quickview__value--number" value="1" data-counter/="">
-                                                        </label>
-                                                        <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                    </div>
-                                                </td>
-                                                <td class="cart__table--body__list">
-                                                    <span class="cart__price end">£130.00</span>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    {{-- Total Price --}}
+                                                    <td class="cart__table--body__list">
+                                                        <span class="cart__price end">
+                                                            {!! config('settings.currency_symbol') !!} <span class="total_price" id="{{ $item->rowId }}_item_total">{{ $item->price * $item->qty }}</span>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-end">
+                                                            <button type="button" data-id="{{ $item->rowId }}"
+                                                                class="btn btn-sm btn-outline-danger cart-remove-item"
+                                                                data-id="{{ $item->rowId }}">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
-                                    </table> 
-                                    <div class="continue__shopping d-flex justify-content-between">
-                                        <a class="continue__shopping--link" href="shop.html">Continue shopping</a>
-                                        <button class="continue__shopping--clear" type="submit">Clear Cart</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="cart__summary border-radius-10">
-                                    <div class="coupon__code mb-30">
-                                        <h3 class="coupon__code--title">Coupon</h3>
-                                        <p class="coupon__code--desc">Enter your coupon code if you have one.</p>
-                                        <div class="coupon__code--field d-flex">
-                                            <label>
-                                                <input class="coupon__code--field__input border-radius-5" placeholder="Coupon code" type="text">
-                                            </label>
-                                            <button class="coupon__code--field__btn primary__btn" type="submit">Apply Coupon</button>
+
+                                        </table> 
+                                        <div class="continue__shopping d-flex justify-content-between">
+                                            <a class="continue__shopping--link" href="{{route('front.shop')}}">Continue shopping</a>
+                                            <button class="continue__shopping--clear" type="submit">Clear Cart</button>
                                         </div>
                                     </div>
-                                    <div class="cart__note mb-20">
-                                        <h3 class="cart__note--title">Note</h3>
-                                        <p class="cart__note--desc">Add special instructions for your seller...</p>
-                                        <textarea class="cart__note--textarea border-radius-5"></textarea>
-                                    </div>
-                                    <div class="cart__summary--total mb-20">
-                                        <table class="cart__summary--total__table">
-                                            <tbody>
-                                                <tr class="cart__summary--total__list">
-                                                    <td class="cart__summary--total__title text-left">SUBTOTAL</td>
-                                                    <td class="cart__summary--amount text-right">$860.00</td>
-                                                </tr>
-                                                <tr class="cart__summary--total__list">
-                                                    <td class="cart__summary--total__title text-left">GRAND TOTAL</td>
-                                                    <td class="cart__summary--amount text-right">$860.00</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="cart__summary--footer">
-                                        <p class="cart__summary--footer__desc">Shipping & taxes calculated at checkout</p>
-                                        <ul class="d-flex justify-content-between">
-                                            <li><button class="cart__summary--footer__btn primary__btn cart" type="submit">Update Cart</button></li>
-                                            <li><a class="cart__summary--footer__btn primary__btn checkout" href="checkout.html">Check Out</a></li>
-                                        </ul>
-                                    </div>
-                                </div> 
-                            </div>
-                        </div> 
-                    </form> 
-                </div>
-            </div>     
-        </section>
-        <!-- cart section end -->
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="cart__summary border-radius-10">
+                                        {{-- Coupon Section --}}
+                                        <div class="coupon__code mb-30">
+                                            <h3 class="coupon__code--title">Coupon</h3>
+                                            <p class="coupon__code--desc">Enter your coupon code if you have one.</p>
 
+                                            <form action="{{ route('front.applyCoupon') }}" method="POST" class="coupon__code--field d-flex">
+                                                @csrf
+                                                <label>
+                                                    <input class="coupon__code--field__input border-radius-5" name="code" type="text" placeholder="Coupon code"
+                                                        value="{{ session()->has('code') ? session()->get('code')->code : '' }}">
+                                                </label>
+                                                @if (session()->has('code'))
+                                                    <input type="hidden" name="removeCoupon" value="1">
+                                                    <button class="coupon__code--field__btn primary__btn btn btn-sm btn-outline-danger" type="submit">Remove</button>
+                                                @else
+                                                    <button class="coupon__code--field__btn primary__btn btn btn-sm btn-primary" type="submit">Apply Coupon</button>
+                                                @endif
+                                            </form>
+                                            <div>
+                                                        @if (Session::has('invalidCart'))
+                                                            <button onclick="reArrangeCart()" class="btn btn-sm btn-outline-secondary me-2">
+                                                                <i class="bi bi-arrow-clockwise"></i> Update
+                                                            </button>
+                                                        @endif
+                                                        <button onclick="return window.location.reload()"
+                                                            class="btn btn-sm btn-outline-danger">
+                                                            <i class="bi bi-arrow-clockwise"></i> Reload
+                                                        </button>
+                                                    </div>
+                                        </div>
+
+                                        {{-- Summary Table --}}
+                                        <div class="cart__summary--total mb-20">
+                                            <table class="cart__summary--total__table">
+                                                <tbody>
+                                                    {{-- Subtotal --}}
+                                                    <tr class="cart__summary--total__list">
+                                                        <td class="cart__summary--total__title text-left">SUBTOTAL</td>
+                                                        <td class="cart__summary--amount text-right">
+                                                            {!! config('settings.currency_symbol') !!}{{ Cart::subtotal() }}
+                                                        </td>
+                                                    </tr>
+
+                                                    {{-- Discount --}}
+                                                    @php
+                                                        $discountType = session()->get('code')?->discount_type ?? null;
+                                                        $discountAmount = session()->get('code')?->discount_amount ?? 0;
+                                                        $subtotalValue = (float) Cart::subtotal(2, '.', '');
+                                                        $discount = 0;
+
+                                                        if ($discountType === 'percent') {
+                                                            $discount = ($discountAmount / 100) * $subtotalValue;
+                                                        } elseif ($discountType === 'fixed') {
+                                                            $discount = $discountAmount;
+                                                        }
+
+                                                        $grandTotal = $discountType === 'freeShipping' ? $subtotalValue : $subtotalValue - $discount;
+                                                    @endphp
+
+                                                    @if (session()->has('code'))
+                                                        <tr class="cart__summary--total__list text-success">
+                                                            <td class="cart__summary--total__title text-left">DISCOUNT</td>
+                                                            <td class="cart__summary--amount text-right">
+                                                                @if ($discountType === 'freeShipping')
+                                                                    Free Shipping
+                                                                @elseif ($discountType === 'percent')
+                                                                    {{ $discountAmount }}%
+                                                                @else
+                                                                    {!! config('settings.currency_symbol') !!}{{ $discount }}
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+
+                                                    {{-- Grand Total --}}
+                                                    <tr class="cart__summary--total__list">
+                                                        <td class="cart__summary--total__title text-left fw-bold">GRAND TOTAL</td>
+                                                        <td class="cart__summary--amount text-right fw-bold">
+                                                            {!! config('settings.currency_symbol') !!}{{ number_format($grandTotal, 2) }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        {{-- Footer Buttons --}}
+                                        <div class="cart__summary--footer">
+                                            <p class="cart__summary--footer__desc">Shipping & taxes calculated at checkout</p>
+                                            <ul class="d-flex justify-content-between">
+                                                <li>
+                                                    <a class="cart__summary--footer__btn primary__btn checkout" href="{{ route('front.shop') }}">
+                                                    <i class="bi bi-arrow-left"></i>  Continue Shopping
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="cart__summary--footer__btn primary__btn checkout bg-success" href="{{ route('front.checkout') }}">
+                                                    <i class="bi bi-arrow-right"></i>  Proceed to Checkout
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div> 
+                    </div>
+                </div>     
+            </section>
+        <!-- cart section end -->
+        <script>
+            function reArrangeCart() {
+                var button = $(this);
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('front.reArrangeCart') }}",
+                    data: {
+                        'data': 1,
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        button.prop('disabled', true);
+
+                    },
+                    success: function(response) {
+                        button.prop('disabled', false);
+                        window.location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        button.prop('disabled', false);
+                        $('.discount').remove();
+                        $('#discountForm').val('');
+                        var errorMessage = "";
+                        try {
+                            var responseJson = JSON.parse(xhr.responseText);
+                            errorMessage = responseJson.message;
+                        } catch (e) {
+                            errorMessage = "An error occurred: " + xhr.status + " " + xhr.statusText;
+                        }
+                        showNotification(errorMessage, 'danger', 'html');
+
+                    }
+                });
+
+            }
+            
+        </script>
         <!-- Start product section -->
         <section class="product__section section--padding pt-0">
             <div class="container-fluid">

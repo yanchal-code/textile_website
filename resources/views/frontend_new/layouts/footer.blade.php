@@ -457,10 +457,701 @@
 <script src="{{ asset('frontend/js/vendor/bootstrap.min.js') }}" defer></script>
 <script src="{{ asset('frontend/js/plugins/swiper-bundle.min.js') }}"></script>
 <script src="{{ asset('frontend/js/plugins/glightbox.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('frontend/js/plugins/jquery.nice-select.min.js') }}"></script>
+<script src="{{ asset('frontend/js/plugins/jquery.magnific-popup.min.js') }}"></script>
+<!-- Toastify CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+<!-- Toastify JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <!-- Custom script js -->
 <script src="{{ asset('frontend/js/script.js') }}"></script>
+<script>
+    function showNotification(message = "✅ Added Successfully", type = "success", duration = 4000) {
+        let bgColor = "#28a745"; // Default: Bootstrap success green
 
-  
+        if (type === "error") {
+            bgColor = "#dc3545"; // Bootstrap danger red
+        } else if (type === "warning") {
+            bgColor = "#ffc107"; // Bootstrap warning yellow
+        } else if (type === "info") {
+            bgColor = "#17a2b8"; // Bootstrap info blue
+        }
+
+        Toastify({
+            text: message,
+            duration: duration,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: bgColor,
+            stopOnFocus: true,
+        }).showToast();
+    }
+</script>
+<script>
+     $.ajaxSetup({
+         headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         }
+     });
+
+     function handleFormSubmit(formSelector, url) {
+         var form = $(formSelector);
+         var submitButton = form.find('button[type="submit"]');
+         var originalButtonHtml = submitButton.html();
+
+         event.preventDefault();
+
+         if (form[0].checkValidity() === true) {
+             var formData = new FormData(form[0]);
+
+             $.ajax({
+                 type: form.attr('method'),
+                 url: url,
+                 data: formData,
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 },
+                 processData: false,
+                 contentType: false,
+                 dataType: 'json',
+                 beforeSend: function() {
+                     submitButton.html(
+                         '<span class="spinner-border spinner-border-sm" role="status"></span>'
+                     );
+                 },
+                 success: function(response) {
+                     if (response.status === false) {
+                         var errorsHtml = '';
+                         var errors = response.errors;
+                         var count = 1;
+                         for (var key in errors) {
+                             if (errors.hasOwnProperty(key)) {
+                                 errorsHtml += `<p>${count}. ${errors[key][0]}</p>`;
+                             }
+                             count++;
+                         }
+                         showNotification(errorsHtml, 'danger', 'html');
+                     } else if (response.status === true) {
+
+                         showNotification(response.message, 'success', 'text');
+                     }
+                     if (response.reload == true) {
+                         setTimeout(function() {
+                             window.location.reload();
+                         }, 4000);
+                     } else {
+                         form[0].reset();
+                         form.removeClass('was-validated');
+                     }
+                 },
+                 error: function(xhr) {
+                     var errorMessage = "An error occurred.";
+                     try {
+                         var responseJson = JSON.parse(xhr.responseText);
+                         errorMessage = responseJson.message || errorMessage;
+                     } catch (e) {
+                         errorMessage = `Error: ${xhr.status} ${xhr.statusText}`;
+                     }
+                     showNotification(errorMessage, 'danger', 'text');
+                 },
+                 complete: function() {
+                     submitButton.html(originalButtonHtml);
+                 }
+             });
+         } else {
+             form.addClass('was-validated');
+         }
+
+         return false;
+     }
+
+     function handleBidFormSubmit(formSelector, url) {
+         var form = $(formSelector);
+         var submitButton = form.find('button[type="submit"]');
+         var originalButtonHtml = submitButton.html();
+
+         event.preventDefault();
+
+         if (form[0].checkValidity() === true) {
+             var formData = new FormData(form[0]);
+
+             $.ajax({
+                 type: form.attr('method'),
+                 url: url,
+                 data: formData,
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 },
+                 processData: false,
+                 contentType: false,
+                 dataType: 'json',
+                 beforeSend: function() {
+                     submitButton.html(
+                         '<span class="spinner-border spinner-border-sm" role="status"></span>'
+                     );
+                 },
+                 success: function(response) {
+                     if (response.status === false) {
+                         var errorsHtml = '';
+                         var errors = response.errors;
+                         var count = 1;
+                         for (var key in errors) {
+                             if (errors.hasOwnProperty(key)) {
+                                 errorsHtml += `<p>${count}. ${errors[key][0]}</p>`;
+                             }
+                             count++;
+                         }
+                         showNotification(errorsHtml, 'danger', 'html');
+                     } else if (response.status === true) {
+
+                         showNotification(response.message, 'success', 'text');
+                     } else if (response.status == 'message') {
+
+                         showNotification(response.message, 'warning', 'text');
+                     }
+                     $('.currentBid').text(response.currentBid);
+                     if (response.reload == true) {
+                         setTimeout(function() {
+                             window.location.reload();
+                         }, 4000);
+                     } else {
+                         form[0].reset();
+                         form.removeClass('was-validated');
+                     }
+                 },
+                 error: function(xhr) {
+                     var errorMessage = "An error occurred.";
+                     try {
+                         var responseJson = JSON.parse(xhr.responseText);
+                         errorMessage = responseJson.message || errorMessage;
+                     } catch (e) {
+                         errorMessage = `Error: ${xhr.status} ${xhr.statusText}`;
+                     }
+                     showNotification(errorMessage, 'danger', 'text');
+                 },
+                 complete: function() {
+                     submitButton.html(originalButtonHtml);
+                 }
+             });
+         } else {
+             form.addClass('was-validated');
+         }
+
+         return false;
+     }
+
+     function addToWishlist(id) {
+         var btn = $(this);
+         $.ajax({
+             type: "post",
+             url: "{{ route('front.addToWishlist') }}",
+             data: {
+                 'id': id
+             },
+             beforeSend: function() {
+                 btn.prop('disabled', true);
+             },
+             dataType: "json",
+             success: function(response) {
+                 btn.prop('disabled', false);
+                 if (response.status == true) {
+                     showNotification(response.message, 'success', 'html')
+                     $('.totalItemsInWishlist').html(response.totalItemsInWishlist);
+                 } else if (response.status == false) {
+                     window.location.href = "{{ route('account.login') }}";
+                 }
+
+             },
+             error: function(xhr, status, error) {
+                 btn.prop('disabled', false);
+                 var errorMessage = "";
+                 try {
+                     var responseJson = JSON.parse(xhr.responseText);
+                     errorMessage = responseJson.message;
+                 } catch (e) {
+                     errorMessage = "An error occurred: " + xhr.status + " " + xhr.statusText;
+                 }
+
+                 showNotification(errorMessage, 'danger', 'html');
+
+             }
+         });
+     };
+
+     function removeFromWishlist(id) {
+         var btn = $(this);
+         $.ajax({
+             type: "post",
+             url: "{{ route('wishlist.deleteItem') }}",
+             data: {
+                 'id': id
+             },
+             beforeSend: function() {
+                 btn.prop('disabled', true);
+             },
+             dataType: "json",
+             success: function(response) {
+                 btn.prop('disabled', false);
+                 if (response.status == true) {
+                     showNotification(response.message, 'success')
+                     $('.totalItemsInWishlist').html(response.totalItemsInWishlist);
+                     window.location.reload();
+                 } else if (response.status == false) {
+                     window.location.href = "{{ route('account.login') }}";
+                 }
+
+             },
+             error: function(xhr, status, error) {
+                 btn.prop('disabled', false);
+                 var errorMessage = "";
+                 try {
+                     var responseJson = JSON.parse(xhr.responseText);
+                     errorMessage = responseJson.message;
+                 } catch (e) {
+                     errorMessage = "An error occurred: " + xhr.status + " " + xhr.statusText;
+                 }
+
+                 showNotification(errorMessage, 'danger', 'html');
+
+             }
+         });
+     };
+
+     $('.newsletter').submit(function(e) {
+         e.preventDefault();
+         var btn = $('.newsletterSubmit');
+         var form = $(this);
+         if (form[0].checkValidity() === true) {
+             var formData = new FormData(this);
+             $.ajax({
+                 type: "post",
+                 url: "{{ route('front.newsletter') }}",
+                 data: formData,
+                 processData: false,
+                 contentType: false,
+                 dataType: "json",
+                 beforeSend: function() {
+                     btn.prop('disabled', true);
+                 },
+                 dataType: "json",
+                 success: function(response) {
+                     btn.prop('disabled', false);
+
+                     if (response.status == true) {
+                         form[0].reset();
+                         showNotification(response.message, 'success', 'html')
+                     } else if (response.status == false) {
+                         window.location.reload();
+                     }
+
+                 },
+                 error: function(xhr, status, error) {
+                     btn.prop('disabled', false);
+                     var errorMessage = "";
+                     try {
+                         var responseJson = JSON.parse(xhr.responseText);
+                         errorMessage = responseJson.message;
+                     } catch (e) {
+                         errorMessage = "An error occurred: " + xhr.status + " " + xhr
+                             .statusText;
+                     }
+
+                     showNotification(errorMessage, 'danger', 'html');
+
+                 }
+             });
+         }
+     });
+
+     $(document).on('click', '.quick-add', function(e) {
+
+         var product_id = $(this).data('bs-sku');
+
+         var addToCartBtn = $(this);
+
+         var originalButtonHtml = addToCartBtn.html();
+
+         e.preventDefault();
+         $.ajax({
+             type: "post",
+             url: "{{ route('front.addTocart') }}",
+             data: {
+                 'id': product_id,
+             },
+             headers: {
+                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             },
+             beforeSend: function() {
+                 addToCartBtn.prop('disabled', true);
+                 addToCartBtn.html(
+                     '<span class="spinner-border spinner-border-sm" role="status"></span>'
+                 );
+             },
+             dataType: "json",
+
+             success: function(response) {
+
+                 if (response.status === false) {
+                     var errorsHtml = '';
+                     var errors = response.errors;
+                     var count = 1;
+                     for (var key in errors) {
+
+                         if (errors.hasOwnProperty(key)) {
+                             errorsHtml += '<p>' + count + '. ' + errors[key][0] + '</p>';
+                         }
+                         count = count + 1;
+                     }
+
+                     showNotification(response.message, 'warining', 'html');
+                 } else {
+                     showNotification(response.message, 'success', 'text');
+                     $('.totalItemsInCart').text(response.totalItemsInCart);
+                 }
+             },
+             error: function(xhr, status, error) {
+
+                 var errorMessage = "";
+                 try {
+                     var responseJson = JSON.parse(xhr.responseText);
+                     errorMessage = responseJson.message;
+                 } catch (e) {
+                     errorMessage = "An error occurred: " + xhr.status + " " + xhr.statusText;
+                 }
+
+                 showNotification(errorMessage, 'danger', 'html');
+
+             },
+             complete: function() {
+                 addToCartBtn.html(originalButtonHtml);
+             }
+         });
+     });
+     $(document).on('click', '.quick-add-qty', function(e) {
+
+         var product_id = $(this).data('bs-id');
+         var qty = $('#product-quantity').val();
+
+         var addToCartBtn = $(this);
+
+         var originalButtonHtml = addToCartBtn.html();
+
+         var selectedOptions = {};
+
+         $('.options_select_input').each(function() {
+             var optionName = $(this).attr('name');
+             var optionValue = $(this).val();
+
+             if (optionName && optionValue) {
+                 selectedOptions[optionName] = optionValue;
+             }
+
+         });
+
+
+         e.preventDefault();
+         $.ajax({
+             type: "post",
+             url: "{{ route('front.addTocart') }}",
+             data: {
+                 'id': product_id,
+                 'qty': qty,
+                 'options': selectedOptions,
+             },
+             headers: {
+                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             },
+             beforeSend: function() {
+
+                 addToCartBtn.html(
+                     '<span class="spinner-border spinner-border-sm" role="status"></span>'
+                 );
+             },
+             dataType: "json",
+
+             success: function(response) {
+
+                 if (response.status === false) {
+                     var errorsHtml = '';
+                     var errors = response.errors;
+                     var count = 1;
+                     for (var key in errors) {
+
+                         if (errors.hasOwnProperty(key)) {
+                             errorsHtml += '<p>' + count + '. ' + errors[key][0] +
+                                 '</p>';
+                         }
+                         count = count + 1;
+                     }
+
+                     showNotification(response.message, 'warining', 'html');
+                 } else {
+                     showNotification(response.message, 'success', 'text');
+                     $('.totalItemsInCart').text(response.totalItemsInCart);
+                 }
+             },
+             error: function(xhr, status, error) {
+
+                 var errorMessage = "";
+                 try {
+                     var responseJson = JSON.parse(xhr.responseText);
+                     errorMessage = responseJson.message;
+                 } catch (e) {
+                     errorMessage = "An error occurred: " + xhr.status + " " + xhr
+                         .statusText;
+                 }
+
+                 showNotification(errorMessage, 'danger', 'html');
+
+             },
+             complete: function() {
+                 addToCartBtn.html(originalButtonHtml);
+             }
+         });
+     });
+
+
+     function handleQuantityChange(button, isIncrement) {
+         var maxAllowedQuantity = 100;
+
+        //  var qtyElement = button.closest('.input-group').find('input');
+         var qtyElement = button.closest('.quantity__box, .input-group').find('input');
+
+
+         var qtyValue = parseInt(qtyElement.val());
+         var rowId = button.data('id');
+         var element = button.data('element-id');
+         var item_total = $('#' + element + '_item_total');
+
+         if (isIncrement) {
+             if (qtyValue < maxAllowedQuantity) {
+                 qtyElement.val(qtyValue + 1);
+                 updateCart(rowId, qtyElement.val(), item_total, button);
+             } else {
+                 qtyElement.val(maxAllowedQuantity);
+                 alert('Max allowed quantity is ' + maxAllowedQuantity);
+             }
+         } else {
+             if (qtyValue > 1) {
+                 qtyElement.val(qtyValue - 1);
+                 updateCart(rowId, qtyElement.val(), item_total, button);
+             }
+         }
+     }
+
+     function updateCart(rowId, qty, element, button) {
+
+         var originalButtonHtml = button.html();
+
+         $.ajax({
+             type: "post",
+             url: "{{ route('cart.update') }}",
+             data: {
+                 'rowId': rowId,
+                 'qty': qty
+             },
+             dataType: "json",
+             beforeSend: function() {
+                 button.prop('disabled', true);
+                 button.html(
+                     '<span class="spinner-border spinner-border-sm" role="status"></span>'
+                 );
+             },
+             success: function(response) {
+
+                 $('.discount').remove();
+                 $('#discountForm').val('');
+
+                 if (response.status === true) {
+                     showNotification(response.message, 'success', 'text');
+                 } else {
+                     showNotification(response.message, 'danger', 'text');
+                 }
+
+                 button.closest('.remove_item_row').find('.total_price').text(response.item_total);
+
+                 $('.card_subtotal').text(response.cart_subtotal);
+
+                 $('.totalItemsInCart').text(response.totalItemsInCart);
+             },
+             error: function(xhr) {
+                 $('.discount').remove();
+                 $('#discountForm').val('');
+                 var errorMessage = "";
+                 try {
+                     var responseJson = JSON.parse(xhr.responseText);
+                     errorMessage = responseJson.message;
+                 } catch (e) {
+                     errorMessage = "An error occurred: " + xhr.status + " " + xhr.statusText;
+                 }
+                 showNotification(errorMessage, 'danger', 'html');
+             },
+             complete: function() {
+                 button.prop('disabled', false);
+                 button.html(originalButtonHtml);
+             }
+         });
+     }
+
+     function deleteItem(rowId, button) {
+         var originalButtonHtml = button.html();
+         $.ajax({
+             type: "post",
+             url: "{{ route('cart.deleteItem') }}",
+             data: {
+                 'rowId': rowId
+             },
+             dataType: "json",
+             beforeSend: function() {
+                 button.prop('disabled', true);
+                 button.html(`<span class="spinner-border spinner-border-sm" role="status"></span>`);
+             },
+             success: function(response) {
+                 $('.discount').remove();
+                 $('#discountForm').val('');
+
+                 if (response.status === true) {
+                     $('.card_subtotal').text(response.card_subtotal);
+                     if (response.card_subtotal === 0) {
+                         window.location.reload();
+                     } else {
+                         button.closest('.remove_item_row').remove();
+                         $('.totalItemsInCart').text(response.totalItemsInCart);
+                     }
+                 } else {
+                     showNotification(response.message, 'danger', 'text');
+                     $('.card_subtotal').text(response.card_subtotal);
+                     $('.totalItemsInCart').text(response.totalItemsInCart);
+                 }
+             },
+
+             error: function(xhr) {
+                 $('.discount').remove();
+                 $('#discountForm').val('');
+                 var errorMessage = "";
+                 try {
+                     var responseJson = JSON.parse(xhr.responseText);
+                     errorMessage = responseJson.message;
+                 } catch (e) {
+                     errorMessage = "An error occurred: " + xhr.status + " " + xhr.statusText;
+                 }
+                 showNotification(errorMessage, 'danger', 'html');
+             },
+             complete: function() {
+                 button.prop('disabled', false);
+                 button.html(originalButtonHtml);
+             }
+         });
+     }
+
+     $(document).on('click', '.cart-plus-btn', function() {
+         handleQuantityChange($(this), true);
+     });
+
+     $(document).on('click', '.cart-minus-btn', function() {
+         handleQuantityChange($(this), false);
+     });
+
+     $(document).on('click', '.cart-remove-item', function() {
+         deleteItem($(this).data('id'), $(this));
+     });
+ </script>
+
+ <script>
+     function loadQuickView(sku) {
+         let modal = $('#quick_view');
+         modal.modal('show');
+         let url = "{{ route('product.quickView') }}";
+
+         $.ajax({
+             url: url,
+             method: 'POST',
+             data: {
+                 'sku': sku,
+             },
+
+             beforesend: function() {
+                 $('#product-quick-view-main-div').html(` <div class="spinner-border m-auto text-center" style="width: 3rem; height: 3rem;" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>`);
+             },
+
+             success: function(response) {
+                 $('#product-quick-view-main-div').html(response);
+
+             },
+             error: function() {
+                 $('#product-quick-view-main-div').html(
+                     '<div class="text-danger">Failed to load product details. Please try again later.</div>'
+                 );
+
+             },
+             complete: function() {
+                 initSwipers();
+             }
+
+         });
+     }
+
+     function initSwipers(context = document) {
+         context.querySelectorAll('.init-swiper').forEach((swiperEl) => {
+             const configEl = swiperEl.querySelector('.swiper-config');
+             let config = {};
+
+             if (configEl) {
+                 try {
+                     config = JSON.parse(configEl.textContent);
+                 } catch (e) {
+                     console.error("Invalid Swiper config JSON", e);
+                 }
+             }
+
+             const defaultConfig = {
+                 loop: false,
+                 slidesPerView: 1,
+                 spaceBetween: 10,
+                 navigation: {
+                     nextEl: swiperEl.querySelector('.swiper-button-next'),
+                     prevEl: swiperEl.querySelector('.swiper-button-prev'),
+                 },
+             };
+
+             // Initialize Swiper
+             new Swiper(swiperEl, Object.assign({}, defaultConfig, config));
+
+             // ✅ Thumbnail click -> update main image
+             const mainImg = document.getElementById('main-product-image');
+             swiperEl.querySelectorAll('.thumbnail-item').forEach((thumb) => {
+                 thumb.addEventListener('click', () => {
+                     const src = thumb.getAttribute('data-image');
+                     if (src && mainImg) {
+                         mainImg.src = src;
+                         mainImg.setAttribute('data-zoom', src);
+                     }
+
+                     // active state
+                     swiperEl.querySelectorAll('.thumbnail-item').forEach(t =>
+                         t.classList.remove('active')
+                     );
+                     thumb.classList.add('active');
+                 });
+             });
+         });
+     }
+
+
+
+     $(document).on('click', '.quickview', function() {
+         let sku = $(this).data('sku');
+         loadQuickView(sku);
+     });
+ </script>
+
+
+
 </body>
 </html>
