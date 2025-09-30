@@ -333,7 +333,7 @@ class CartController extends Controller
                     $code = session()->get('code');
                 }
 
-                return view('front.checkout', $data);
+                return view('frontend_new.checkout', $data);
             } else {
                 session(['urlintended' => url()->current()]);
                 session()->save();

@@ -71,7 +71,7 @@
             <div class="checkout__page--inner d-flex">
                 <div class="main checkout__mian">
                     <header class="main__header checkout__mian--header mb-30">
-                        <h1 class="main__logo--title"><a class="logo logo__left mb-20" href="index.html"><img src="{{asset('frontend/img/logo/nav-log.png')}}" alt="logo"></a></h1>
+                        <h1 class="main__logo--title"><a class="logo logo__left mb-20" href="/"><img src="{{asset('frontend/img/logo/nav-log.png')}}" alt="logo"></a></h1>
                         <details class="order__summary--mobile__version">
                             <summary class="order__summary--toggle border-radius-5">
                                 <span class="order__summary--toggle__inner">
@@ -197,112 +197,163 @@
                             </nav>
                     </header>
                     <main class="main__content_wrapper">
-                        <form action="#">
-                            <div class="checkout__content--step section__contact--information">
-                                <div class="section__header checkout__section--header d-flex align-items-center justify-content-between mb-25">
-                                    <h2 class="section__header--title h3">Contact information</h2>
-                                    <p class="layout__flex--item">
-                                        Already have an account?
-                                        <a class="layout__flex--item__link" href="login.html">Log in</a>  
-                                    </p>
+                    <form action="" method="POST">
+                        @csrf
+                        <div class="checkout__content--step section__contact--information">
+                            <div class="section__header checkout__section--header d-flex align-items-center justify-content-between mb-25">
+                                <h2 class="section__header--title h3">Contact information</h2>
+                                <p class="layout__flex--item">
+                                    Already have an account?
+                                    <a class="layout__flex--item__link" href="{{ route('login') }}">Log in</a>  
+                                </p>
+                            </div>
+                            <div class="customer__information">
+                                <!-- Email -->
+                                <div class="checkout__email--phone mb-12">
+                                    <label>
+                                        <input class="checkout__input--field border-radius-5" 
+                                            name="email" type="email" 
+                                            value="{{ old('email', auth()->user()->email ?? '') }}" 
+                                            placeholder="Email">
+                                    </label>
+                                    @error('email')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
-                                <div class="customer__information">
-                                    <div class="checkout__email--phone mb-12">
-                                       <label>
-                                            <input class="checkout__input--field border-radius-5" placeholder="Email or mobile phone mumber" type="text">
-                                       </label>
-                                    </div>
-                                    <div class="checkout__checkbox">
-                                        <input class="checkout__checkbox--input" id="check1" type="checkbox">
-                                        <span class="checkout__checkbox--checkmark"></span>
-                                        <label class="checkout__checkbox--label" for="check1">
-                                            Email me with news and offers</label>
-                                    </div>
+
+                                <!-- Phone -->
+                                <div class="checkout__email--phone mb-12">
+                                    <label>
+                                        <input class="checkout__input--field border-radius-5" 
+                                            name="phone" type="text" 
+                                            value="{{ old('phone', auth()->user()->phone ?? '') }}" 
+                                            placeholder="Mobile phone number">
+                                    </label>
+                                    @error('phone')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div class="checkout__checkbox">
+                                    <input class="checkout__checkbox--input" id="subscribe" type="checkbox" name="subscribe" {{ old('subscribe') ? 'checked' : '' }}>
+                                    <span class="checkout__checkbox--checkmark"></span>
+                                    <label class="checkout__checkbox--label" for="subscribe">
+                                        Email me with news and offers
+                                    </label>
                                 </div>
                             </div>
-                            <div class="checkout__content--step section__shipping--address">
-                                <div class="section__header mb-25">
-                                    <h3 class="section__header--title">Shipping address</h3>
-                                </div>
-                                <div class="section__shipping--address__content">
-                                    <div class="row">
-                                        <div class="col-lg-6 mb-12">
-                                            <div class="checkout__input--list ">
-                                                <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="First name (optional)" type="text">
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 mb-12">
-                                            <div class="checkout__input--list">
-                                                <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="Last name" type="text">
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 mb-12">
-                                            <div class="checkout__input--list">
-                                                <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="Company (optional)" type="text">
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 mb-12">
-                                            <div class="checkout__input--list">
-                                                <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="Address1" type="text">
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 mb-12">
-                                            <div class="checkout__input--list">
-                                                <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="Apartment, suite, etc. (optional)" type="text">
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 mb-12">
-                                            <div class="checkout__input--list">
-                                                <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="City" type="text">
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 mb-12">
-                                            <div class="checkout__input--list checkout__input--select select">
-                                                <label class="checkout__select--label" for="country">Country/region</label>
-                                                <select class="checkout__input--select__field border-radius-5" id="country">
-                                                    <option value="1">India</option>
-                                                    <option value="2">United States</option>
-                                                    <option value="3">Netherlands</option>
-                                                    <option value="4">Afghanistan</option>
-                                                    <option value="5">Islands</option>
-                                                    <option value="6">Albania</option>
-                                                    <option value="7">Antigua Barbuda</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 mb-12">
-                                            <div class="checkout__input--list">
-                                                <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="Postal code" type="text">
-                                                </label>
-                                            </div>
+                        </div>
+                        <!-- Shipping Address -->
+                        <div class="checkout__content--step section__shipping--address">
+                            <div class="section__header mb-25">
+                                <h3 class="section__header--title">Shipping address</h3>
+                            </div>
+                            <div class="section__shipping--address__content">
+                                <div class="row">
+                                    <div class="col-lg-6 mb-12">
+                                        <div class="checkout__input--list">
+                                            <label>
+                                                <input class="checkout__input--field border-radius-5" name="first_name" type="text" value="{{ old('first_name') }}" placeholder="First name">
+                                            </label>
+                                            @error('first_name')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
-                                    <div class="checkout__checkbox">
-                                        <input class="checkout__checkbox--input" id="check2" type="checkbox">
-                                        <span class="checkout__checkbox--checkmark"></span>
-                                        <label class="checkout__checkbox--label" for="check2">
-                                            Save this information for next time</label>
+                                    <div class="col-lg-6 mb-12">
+                                        <div class="checkout__input--list">
+                                            <label>
+                                                <input class="checkout__input--field border-radius-5" name="last_name" type="text" value="{{ old('last_name') }}" placeholder="Last name">
+                                            </label>
+                                            @error('last_name')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-12">
+                                        <div class="checkout__input--list">
+                                            <label>
+                                                <input class="checkout__input--field border-radius-5" name="company" type="text" value="{{ old('company') }}" placeholder="Company (optional)">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-12">
+                                        <div class="checkout__input--list">
+                                            <label>
+                                                <input class="checkout__input--field border-radius-5" name="address1" type="text" value="{{ old('address1') }}" placeholder="Address 1">
+                                            </label>
+                                            @error('address1')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-12">
+                                        <div class="checkout__input--list">
+                                            <label>
+                                                <input class="checkout__input--field border-radius-5" name="address2" type="text" value="{{ old('address2') }}" placeholder="Apartment, suite, etc. (optional)">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-12">
+                                        <div class="checkout__input--list">
+                                            <label>
+                                                <input class="checkout__input--field border-radius-5" name="city" type="text" value="{{ old('city') }}" placeholder="City">
+                                            </label>
+                                            @error('city')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-12">
+                                        <div class="checkout__input--list checkout__input--select select">
+                                            <label class="checkout__select--label" for="country">Country/region</label>
+                                            <select class="checkout__input--select__field border-radius-5" id="country" name="country">
+                                                <option value="India" {{ old('country') == 'India' ? 'selected' : '' }}>India</option>
+                                                <option value="United States" {{ old('country') == 'United States' ? 'selected' : '' }}>United States</option>
+                                                <option value="Netherlands" {{ old('country') == 'Netherlands' ? 'selected' : '' }}>Netherlands</option>
+                                                <option value="Afghanistan" {{ old('country') == 'Afghanistan' ? 'selected' : '' }}>Afghanistan</option>
+                                            </select>
+                                            @error('country')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-12">
+                                        <div class="checkout__input--list">
+                                            <label>
+                                                <input class="checkout__input--field border-radius-5" name="postal_code" type="text" value="{{ old('postal_code') }}" placeholder="Postal code">
+                                            </label>
+                                            @error('postal_code')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Order Notes -->
+                                    <div class="col-12 mb-12">
+                                        <div class="checkout__input--list">
+                                            <label>
+                                                <textarea class="checkout__input--field border-radius-5" name="order_notes" placeholder="Order notes (optional)">{{ old('order_notes') }}</textarea>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="checkout__checkbox">
+                                    <input class="checkout__checkbox--input" id="save_info" type="checkbox" name="save_info" {{ old('save_info') ? 'checked' : '' }}>
+                                    <span class="checkout__checkbox--checkmark"></span>
+                                    <label class="checkout__checkbox--label" for="save_info">
+                                        Save this information for next time
+                                    </label>
+                                </div>
                             </div>
-                            <div class="checkout__content--step__footer d-flex align-items-center">
-                                <a class="continue__shipping--btn primary__btn border-radius-5" href="checkout-2.html">Continue To Shipping</a>
-                                <a class="previous__link--content" href="cart.html">Return to cart</a>
-                            </div>
-                        </form>
+                        </div>
+
+                        <!-- Form Buttons -->
+                        <div class="checkout__content--step__footer d-flex align-items-center">
+                            <button type="submit" class="continue__shipping--btn primary__btn border-radius-5">Continue To Shipping</button>
+                            <a class="previous__link--content" href="{{route('front.cart')}}">Return to cart</a>
+                        </div>
+                    </form>
                     </main>
                     <footer class="main__footer checkout__footer">
                         <p class="copyright__content">Copyright © 2022 <a class="copyright__content--link text__primary" href="index.html">Suruchi</a> . All Rights Reserved.Design By Suruchi</p>
@@ -312,89 +363,113 @@
                     <div class="cart__table checkout__product--table">
                         <table class="cart__table--inner">
                             <tbody class="cart__table--body">
-                                <tr class="cart__table--body__items">
-                                    <td class="cart__table--body__list">
-                                        <div class="product__image two  d-flex align-items-center">
-                                            <div class="product__thumbnail border-radius-5">
-                                                <a href="product-details.html"><img class="border-radius-5" src="{{asset('frontend/img/product/small-product7.png')}}" alt="cart-product"></a>
-                                                <span class="product__thumbnail--quantity">1</span>
+                                @foreach (Cart::content() as $item)
+                                    <tr class="cart__table--body__items">
+                                        <td class="cart__table--body__list">
+                                            <div class="product__image two d-flex align-items-center">
+                                                <div class="product__thumbnail border-radius-5">
+                                                    <a href="">
+                                                        <img class="border-radius-5"
+                                                            src="{{ $item->options->product_image ? asset($item->options->product_image) : asset('frontend/img/product/default.png') }}"
+                                                            alt="{{ $item->name }}">
+                                                    </a>
+                                                    <span class="product__thumbnail--quantity">{{ $item->qty }}</span>
+                                                </div>
+                                                <div class="product__description">
+                                                    <h3 class="product__description--name h4">
+                                                        <a href="">{{ $item->name }}</a>
+                                                    </h3>
+                                                    <span class="product__description--variant">
+                                                        COLOR: {{ $item->options->color ?? 'N/A' }}
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div class="product__description">
-                                                <h3 class="product__description--name h4"><a href="product-details.html">Fresh-whole-fish</a></h3>
-                                                <span class="product__description--variant">COLOR: Blue</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__table--body__list">
-                                        <span class="cart__price">£65.00</span>
-                                    </td>
-                                </tr>
-                                <tr class="cart__table--body__items">
-                                    <td class="cart__table--body__list">
-                                        <div class="cart__product d-flex align-items-center">
-                                            <div class="product__thumbnail border-radius-5">
-                                                <a href="product-details.html"><img class="border-radius-5" src="{{asset('frontend/img/product/small-product2.png')}}" alt="cart-product"></a>
-                                                <span class="product__thumbnail--quantity">1</span>
-                                            </div>
-                                            <div class="product__description">
-                                                <h3 class="product__description--name h4"><a href="product-details.html">Vegetable-healthy</a></h3>
-                                                <span class="product__description--variant">COLOR: Green</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__table--body__list">
-                                        <span class="cart__price">£82.00</span>
-                                    </td>
-                                </tr>
-                                <tr class="cart__table--body__items">
-                                    <td class="cart__table--body__list">
-                                        <div class="cart__product d-flex align-items-center">
-                                            <div class="product__thumbnail border-radius-5">
-                                                <a href="product-details.html"><img class="border-radius-5" src="{{asset('frontend/img/product/small-product4.png')}}" alt="cart-product"></a>
-                                                <span class="product__thumbnail--quantity">1</span>
-                                            </div>
-                                            <div class="product__description">
-                                                <h3 class="product__description--name h4"><a href="product-details.html">Raw-onions-surface</a></h3>
-                                                <span class="product__description--variant">COLOR: White</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__table--body__list">
-                                        <span class="cart__price">£78.00</span>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td class="cart__table--body__list">
+                                            <span class="cart__price">{{ config('settings.currency_symbol') }} {{ $item->price * $item->qty }}</span>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
-                        </table> 
+                        </table>
                     </div>
-                    <div class="checkout__discount--code">
-                        <form class="d-flex" action="#">
-                            <label>
-                                <input class="checkout__discount--code__input--field border-radius-5" placeholder="Gift card or discount code" type="text">
-                            </label>
-                            <button class="checkout__discount--code__btn primary__btn border-radius-5" type="submit">Apply</button>
+
+                    <!-- Coupon/Discount -->
+                    <div class="checkout__discount--code mb-3">
+                        <form id="applyCouponForm" class="d-flex">
+                            <input type="text" id="couponCodeInput" class="checkout__discount--code__input--field border-radius-5" placeholder="Gift card or discount code">
+                            <button type="submit" id="applyCoupon" class="checkout__discount--code__btn primary__btn border-radius-5">Apply</button>
                         </form>
                     </div>
+
+                    <!-- Totals -->
+                    @php
+                        $discount = session('code') ? session('code')->discount_amount : 0;
+                        $discountType = session('code') ? session('code')->type : '';
+                        $coupon = session('code') ? session('code')->code : '';
+                        $subtotal = Cart::subtotal(2, '.', '');
+                        $shipping = calculateShipping();
+                        $total = $subtotal + $shipping - $discount;
+                    @endphp
+
                     <div class="checkout__total">
                         <table class="checkout__total--table">
                             <tbody class="checkout__total--body">
                                 <tr class="checkout__total--items">
-                                    <td class="checkout__total--title text-left">Subtotal </td>
-                                    <td class="checkout__total--amount text-right">$860.00</td>
+                                    <td class="checkout__total--title text-left">Subtotal</td>
+                                    <td class="checkout__total--amount text-right">{{ config('settings.currency_symbol') }} {{ $subtotal }}</td>
                                 </tr>
                                 <tr class="checkout__total--items">
                                     <td class="checkout__total--title text-left">Shipping</td>
                                     <td class="checkout__total--calculated__text text-right">Calculated at next step</td>
                                 </tr>
+                                @if(session('code'))
+                                <tr class="checkout__total--items">
+                                    <td class="checkout__total--title text-left">Discount ({{ $coupon }})</td>
+                                    <td class="checkout__total--amount text-right">
+                                        @if($discountType == 'freeShipping')
+                                            Free Shipping
+                                        @elseif($discountType == 'percent')
+                                            {{ round(($discount * 100) / $subtotal, 2) }}% off
+                                        @else
+                                            {{ config('settings.currency_symbol') }} {{ $discount }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endif
                             </tbody>
                             <tfoot class="checkout__total--footer">
                                 <tr class="checkout__total--footer__items">
-                                    <td class="checkout__total--footer__title checkout__total--footer__list text-left">Total </td>
-                                    <td class="checkout__total--footer__amount checkout__total--footer__list text-right">$860.00</td>
+                                    <td class="checkout__total--footer__title text-left">Total</td>
+                                    <td class="checkout__total--footer__amount text-right">{{ config('settings.currency_symbol') }} {{ $total }}</td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
+
+                    <!-- Payment Method -->
+                    <div class="mt-4">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="phonePe" value="phonePe" checked>
+                            <label class="form-check-label" for="phonePe">
+                                <img src="https://media.licdn.com/dms/image/v2/D560BAQHLOrShxWW33g/company-logo_200_200/company-logo_200_200/0/1732870614932/phonepe_internet_logo?e=2147483647&v=beta&t=ADpboFA5Osbqra1iZzn343_VA2mUGAblUQe2-gejglo"
+                                    width="30" class="me-2" alt="PhonePe"> PhonePe
+                            </label>
+                        </div>
+                        <small class="text-muted">
+                            Your data will be used to process your order, support your experience, and for other purposes described in our
+                            <a href="{{ route('front.page', 'privacy-policy') }}">Privacy Policy</a>.
+                        </small>
+                    </div>
+
+                    <div class="checkout-button mt-4">
+                        <button id="checkoutSubmitBtn" class="btn btn-primary w-100">Place Order</button>
+                    </div>
                 </aside>
+
+<!-- Coupon Script -->
+
+
             </div>
         </div>
     </div>
@@ -411,7 +486,108 @@
 
 <!-- Custom script js -->
 <script src="{{ asset('frontend/js/script.js') }}"></script>
+<script>
+    document.getElementById("applyCouponForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        let couponCode = document.getElementById("couponCodeInput").value;
+        let form = document.createElement("form");
+        form.method = "POST";
+        form.action = "{{ route('front.applyCoupon') }}";
+        let csrfField = document.createElement("input");
+        csrfField.type = "hidden";
+        csrfField.name = "_token";
+        csrfField.value = "{{ csrf_token() }}";
+        form.appendChild(csrfField);
+        let couponField = document.createElement("input");
+        couponField.type = "hidden";
+        couponField.name = "code";
+        couponField.value = couponCode;
+        form.appendChild(couponField);
+        document.body.appendChild(form);
+        form.submit();
+    });
+</script>
+ <script>
+        $('#checkoutSubmitBtn').click(function() {
+            $('#orderForm').submit();
+        });
+        $('#orderForm').submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            var html = $('#checkoutSubmitBtn').html();
 
+            if (form[0].checkValidity() === true) {
+                var formData = new FormData(this);
+                var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+                if (paymentMethod) {
+                    formData.append('paymentMethod', paymentMethod.value);
+                }
+
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('checkout.process') }}",
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    beforeSend: function() {
+                        $('#checkoutSubmitBtn').html(
+                            '<span id="slugLoader"><span class="loader"></span> Loading...</span>'
+                        );
+                    },
+                    success: function(response) {
+
+                        $('#checkoutSubmitBtn').html(html);
+
+
+                        if (response.status === 'validate') {
+                            var errorsHtml = '';
+                            var errors = response.errors;
+                            var count = 1;
+                            for (var key in errors) {
+
+                                if (errors.hasOwnProperty(key)) {
+                                    errorsHtml += '<p>' + count + '. ' + errors[key][0] + '</p>';
+                                }
+                                count = count + 1;
+                            }
+                            showNotification(errorsHtml, 'danger', 'html');
+
+                        } else if (response.status === true) {
+                            window.location.href = response.redirect_url;
+
+                        } else if (response.status == 'duplicate') {
+                            window.location.href = response.redirect_url;
+
+                        } else {
+                            showNotification(response.message, 'danger', 'text');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $('#checkoutSubmitBtn').html(html);
+
+                        var errorMessage = "";
+                        try {
+                            var responseJson = JSON.parse(xhr.responseText);
+                            errorMessage = responseJson.message;
+                        } catch (e) {
+                            errorMessage = "An error occurred: " + xhr.status + " " + xhr
+                                .statusText;
+                        }
+
+                        showNotification(errorMessage, 'danger', 'html');
+                    }
+                });
+
+            } else {
+                form.addClass('was-validated');
+            }
+        });
+    </script>
 
   
 </body>
