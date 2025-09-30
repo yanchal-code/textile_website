@@ -452,22 +452,22 @@
     <button class="color-scheme-2" id="scroll__top"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 244l144-144 144 144M256 120v292"></path></svg></button>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
- <!-- All Script JS Plugins here  -->
-<script src="{{ asset('frontend/js/vendor/popper.js') }}" defer></script>
-<script src="{{ asset('frontend/js/vendor/bootstrap.min.js') }}" defer></script>
-<script src="{{ asset('frontend/js/plugins/swiper-bundle.min.js') }}"></script>
-<script src="{{ asset('frontend/js/plugins/glightbox.min.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ asset('frontend/js/plugins/jquery.nice-select.min.js') }}"></script>
-<script src="{{ asset('frontend/js/plugins/jquery.magnific-popup.min.js') }}"></script>
-<!-- Toastify CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- All Script JS Plugins here  -->
+    <script src="{{ asset('frontend/js/vendor/popper.js') }}" defer></script>
+    <script src="{{ asset('frontend/js/vendor/bootstrap.min.js') }}" defer></script>
+    <script src="{{ asset('frontend/js/plugins/swiper-bundle.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/plugins/glightbox.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('frontend/js/plugins/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/plugins/jquery.magnific-popup.min.js') }}"></script>
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
-<!-- Toastify JS -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!-- Toastify JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-<!-- Custom script js -->
-<script src="{{ asset('frontend/js/script.js') }}"></script>
+    <!-- Custom script js -->
+    <script src="{{ asset('frontend/js/script.js') }}"></script>
 <script>
     function showNotification(message = "✅ Added Successfully", type = "success", duration = 4000) {
         let bgColor = "#28a745"; // Default: Bootstrap success green

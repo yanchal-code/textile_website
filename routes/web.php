@@ -311,7 +311,7 @@ Route::controller(ShopController::class)->group(function () {
 
     Route::post('shop/product/quick/view', 'productQuickView')->name('product.quickView');
 
-    Route::get('product/{sku}', 'product')->name('front.product');
+    Route::get('product/{slug}/{sku?}', 'product')->name('front.product');
 
     Route::post('product/saveReview/{productId}', 'saveReview')->name('front.saveReview');
     Route::post('product/saveReview/order/item', 'saveReviewOrder')->name('front.saveReviewOrder');

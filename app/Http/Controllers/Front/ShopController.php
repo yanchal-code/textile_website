@@ -189,7 +189,6 @@ class ShopController extends Controller
 
     public function product($slug, $sku = null)
     {
-
         $variation = ProductVariation::where('sku', $sku)
             ->orWhere('sku', $slug)
             ->with(['product' => function ($query) {
@@ -218,6 +217,7 @@ class ShopController extends Controller
             $product->quantity = $variation->quantity;
             $product->color = $variation->color;
             $product->size = $variation->size;
+            $data['selectedVariation'] = $variation;
         } else {
             $product = Product::where('slug', $slug)
                 ->orWhere('sku', $sku)
@@ -233,7 +233,7 @@ class ShopController extends Controller
             $data['defaultSize'] = $product->size;
 
             $data['selectedVariation'] = null;
-            $data['variations'] = $product->variations()->where('status', 'active')->get();
+            $data['variations'] = $product->variations()->where('status', '1')->get();
         }
 
         $data['product'] = $product;
