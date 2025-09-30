@@ -26,8 +26,8 @@
             <div class="row row-cols-lg-2 row-cols-md-2">
                 <div class="col">
                         @php
-                   $images = getImagesBySku($product->sku);
-                    @endphp
+                        $images = getImagesBySku($product->sku);
+                        @endphp
 
                     <div class="product__details--media">
                         <!-- Main Preview Swiper -->
@@ -123,54 +123,54 @@
 
                                 <!-- Variations (Dynamic Color, Size, Specs) -->
                                 <div class="product__variant">
-                                    <!-- Color Picker -->
-                                    @if($product->color)
-                                        <div class="product__variant--list mb-10">
-                                            <fieldset class="variant__input--fieldset">
-                                                <legend class="product__variant--title mb-8">size :</legend>
-                                                @php
-                                                    $default = getProductByid($product->id);
-                                                    $variations = $product->variations;
+                                    @php
+                                        $selectedColor = $product->color;
+                                        $selectedSize = $product->size;
+                                        $colors = getColors($product->id);
+                                        $sizes = getSizes($product->id);
+                                    @endphp
+                                    <div class="product__variant--list mb-15">
+                                        <fieldset class="variant__input--fieldset weight">
+                                            <legend class="product__variant--title mb-8">Color(s) :</legend>
+                                            <!-- loading the all items available from variant -->
+                                            @foreach($colors as $index => $each)
+                                                <input 
+                                                    id="color{{ $index }}" 
+                                                    name="color" 
+                                                    type="radio" 
+                                                    value="{{ $each['color'] }}"
+                                                    {{ $selectedColor == $each['color'] ? 'checked' : '' }}
+                                                >
+                                                <label 
+                                                    class="variant__size--value" 
+                                                    for="color{{ $index }}" 
+                                                    onclick="window.location='{{ route('front.product', ['slug' => $product->slug, 'sku' => $each['sku']]) }}'">
+                                                    {{ $each['color'] }}
+                                                </label>
+                                            @endforeach
+                                        </fieldset>
+                                    </div>
 
-                                                    if(!empty($product->color)){
-                                                        $defaultVariation = (object)[
-                                                            'color'=>$default->color,
-                                                            'size'=>$default->size,
-                                                            'sku'=>$default->sku,
-                                                            'image'=>$default->image
-                                                        ];
-                                                        $variations = $variations->push($defaultVariation);
-                                                    }
-
-                                                    $colorOptions = $variations->unique('color')->values();
-                                                @endphp
-                                                @foreach($colorOptions as $color)
-                                                    <input id="color-{{ $loop->index }}" name="color" type="radio" value="{{ $color->color }}" {{ $color->color == $product->color ? 'checked' : '' }}>
-                                                    <label class="variant__color--value" for="color-{{ $loop->index }}" title="{{ $color->color }}">
-                                                        <img class="variant__color--value__img" src="{{ asset($color->image ?? 'frontend/img/no-image.png') }}" alt="variant-color-img">
-                                                    </label>
-                                                @endforeach
-                                            </fieldset>
-                                        </div>
-                                    @endif
-
-                                    <!-- Size Picker -->
-                                    @if($product->size)
-                                        @php
-                                            $sizeOptions = $variations->where('color', $product->color)->unique('size')->values();
-                                        @endphp
-                                        <div class="product__variant--list mb-15">
-                                            <fieldset class="variant__input--fieldset weight">
-                                                <legend class="product__variant--title mb-8">color :</legend>
-                                                @foreach($sizeOptions as $size)
-                                                    @if($size->size)
-                                                        <input id="size-{{ $loop->index }}" name="size" type="radio" value="{{ $size->size }}" {{ $size->size == $product->size ? 'checked' : '' }}>
-                                                        <label class="variant__size--value" for="size-{{ $loop->index }}">{{ $size->size }}</label>
-                                                    @endif
-                                                @endforeach
-                                            </fieldset>
-                                        </div>
-                                    @endif
+                                    <div class="product__variant--list mb-15">
+                                        <fieldset class="variant__input--fieldset weight">
+                                            <legend class="product__variant--title mb-8">Size(s) :</legend>
+                                            <!-- loading the all items available from variant -->
+                                            @foreach($sizes as $index => $each)                                                    
+                                                <input 
+                                                    id="size{{ $index }}" 
+                                                    name="size" 
+                                                    type="radio" 
+                                                    value="{{ $each['size'] }}" 
+                                                    {{ $selectedSize == $each['size'] ? 'checked' : '' }}
+                                                >
+                                                <label 
+                                                    class="variant__size--value cursor-pointer" 
+                                                    onclick="window.location='{{ route('front.product', ['slug' => $product->slug, 'sku' => $each['sku']]) }}'">
+                                                    {{ ucfirst($each['size']) }}
+                                                </label>
+                                            @endforeach
+                                        </fieldset>
+                                    </div>
 
                                     <!-- Specs Dropdowns -->
                                     @if($product->specs)

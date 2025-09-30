@@ -71,7 +71,6 @@ function getImagesBySku(string $sku)
     $images = [];
 
     $variation = ProductVariation::where('sku', $sku)->with(['product', 'images', 'defaultImage'])->first();
-
     if ($variation) {
         // Add the default image of the variation (if it exists)
         if ($variation->defaultImage) {
@@ -113,7 +112,6 @@ function getImagesBySku(string $sku)
             }
         }
     }
-
     return array_values(array_unique($images));
 }
 
@@ -302,4 +300,45 @@ function is_gift_used($uid)
     } else {
         return false;
     }
+}
+
+
+function getColors($product_id)
+{
+    // get from Product first
+    $product = Product::find($product_id);
+    $colors = [];
+    if ($product && $product->color) {
+        $colors[] = ['color' => $product->color, 'sku' => $product->sku, 'is_main'=> true];
+    }
+
+    // get from variations
+    $variations = ProductVariation::where('product_id', $product_id)->get();
+    foreach ($variations as $variation) {
+        if ($variation->color) {
+            $colors[] = ['color' => $variation->color, 'sku' => $variation->sku, 'is_main'=> false];
+        }
+    }
+
+    return $colors;
+}
+
+function getSizes($product_id)
+{
+    // get from Product first
+    $product = Product::find($product_id);
+    $sizes = [];
+    if ($product && $product->size) {
+        $sizes[] = ['size' => $product->size, 'sku' => $product->sku, 'is_main'=> true];
+    }
+
+    // get from variations
+    $variations = ProductVariation::where('product_id', $product_id)->get();
+    foreach ($variations as $variation) {
+        if ($variation->size) {
+            $sizes[] = ['size' => $variation->size, 'sku' => $variation->sku, 'is_main'=> false];
+        }
+    }
+
+    return $sizes;
 }
